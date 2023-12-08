@@ -12,6 +12,11 @@ import './styles/admin/app.scss';
 import './bootstrap';
 import Sortable from 'sortablejs';
 
+import { Calendar } from '@fullcalendar/core';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+
 
 /* TABS
 --------------------------------------------*/
@@ -21,6 +26,31 @@ var container = document.querySelector('.tab-container');
 if (container != null) {
     tabs(container);
 }
+
+
+/* CALENDAR
+--------------------------------------------*/
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    fetch('https://127.0.0.1:8000/api/planning')
+        .then(response => response.json())
+        .then(data => {
+            
+            var calendar = new Calendar(calendarEl, {
+                plugins: [dayGridPlugin],
+                locale: 'fr',
+                events: data,
+            });
+
+            calendar.render();
+        })
+        .catch(error => {
+            console.error('Erreur lors de la récupération des événements:', error);
+        });
+    
+});
+
+
 
 
 /* SORTABLE JS

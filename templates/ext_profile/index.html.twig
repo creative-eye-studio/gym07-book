@@ -1,0 +1,26 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Hello ExtProfileController!{% endblock %}
+
+{% block body %}
+<section class="block mt-5">
+    <h2>{{ prenom }} {{ nom }}</h2>
+    <div class="mt-4">
+        <ul>
+            <li>Téléphone : {{ tel }}</li>
+            <li>Adresse E-Mail : {{ email }}</li>
+            <li>Crédits restants : {{ credits }}</li>
+        </ul>
+        <hr>
+        <h3>Mes réservations</h3>
+        {% for item in reservations %}
+            <div class="line py-3">
+                <span>
+                    {{ item.planning.cours.nomcours }}<br />
+                    {{ item.planning.datetimestart | date('d/m/Y H:i') }} - {{ item.planning.datetimeend | date('d/m/Y H:i') }}
+                </span>
+            </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

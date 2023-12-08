@@ -1,0 +1,41 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Planning{% endblock %}
+
+{% block body %}
+<section class="block mt-5">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-8">
+            <div class="block">
+                <h2>{{ titre }}</h2>
+                <div class="my-3">
+                    <p>{{ description }}</p>
+                </div>
+                <ul>
+                    <li>Crédits : {{ credits }}</li>
+                </ul>
+                <ul class="mb-4">
+                    <li>Date : {{ date }} </li>
+                    <li>De {{ heureDebut }} à {{ heureFin }}</li>
+                </ul>
+                {% if creditsUser > 0 %}
+                    {% if role == "ROLE_DECOUVERTE" %}
+                        {% if lastRegister != null %}
+                            {% if diffDays %}
+                                <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p>
+                            {% endif %}
+                        {% else %}
+                            <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p>
+                        {% endif %}
+                    {% else %}
+                        <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p> 
+                    {% endif %} 
+                {% else %}
+                    <p>Section achat à venir</p>   
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

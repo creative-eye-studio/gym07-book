@@ -1,0 +1,10 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}{{ titre }}{% endblock %}
+
+{% block body %}
+<section class="block">
+    <h2>{{ titre }}</h2>
+    {{ form(form) }}
+</section>
+{% endblock %}

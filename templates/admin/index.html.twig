@@ -3,79 +3,8 @@
 {% block title %}Interface d'administration{% endblock %}
 
 {% block body %}
-<!-- Col Contenu du CMS -->
-<section 
-    {% if is_granted('ROLE_EDITOR') %}
-        class="row col-3"
-    {% else %}
-        class="row col-2"
-    {% endif %}
->
-    <div class="block">
-        <h2>Dernières pages</h2>
-        {% for page in pagesList %}
-            <div class="line">
-                <p>{{ page.pagename[0] }}</p>
-                <ul>
-                    <li><a href="{{ path('web_page', {page_slug: page.pageurl}) }}" target="_blank" rel="noopener">Voir</a></li>
-                </ul>
-            </div>
-        {% endfor %}
-        <p>
-            <a class="btn-link mt" href="{{ path('admin_pages') }}">Voir toutes les pages</a>
-        </p>
-    </div>
-
-    <div class="block">
-        <h2>Derniers articles</h2>
-        {% for post in postsList %}
-            <div class="line">
-                <p>{{ post.postname[0] }}</p>
-                <ul>
-                    <li><a href="{{ path('web_post', {post_slug: post.posturl}) }}" target="_blank" rel="noopener">Voir</a></li>
-                </ul>
-            </div>
-        {% endfor %}
-        <p>
-            <a class="btn-link mt" href="{{ path('admin_posts') }}">Voir tous les articles</a>
-        </p>
-    </div>
-    {% if is_granted('ROLE_EDITOR') %}
-    <div class="block">
-        <h2>Utilisateurs</h2>
-        {% for user in usersList %}
-            <div class="line">
-                <p>{{ user.firstname }} {{ user.lastname }}</p>
-                <ul>
-                    {% if is_granted('ROLE_EDITOR') %}
-                        <li><a href="{{ path('admin_users_modify', { id: user.id }) }}">Modifier</a></li>
-                        <li><a href="{{ path('admin_users_delete', { id: user.id }) }}">Supprimer</a></li>
-                    {% endif %}
-                </ul>
-            </div>
-        {% endfor %}
-        <p>
-            <a class="btn-link mt" href="{{ path('admin_users') }}">Gérer les utilisateurs</a>
-        </p>
-    </div>
-    {% endif %}
-</section>
-
-<!-- Col Infos versions -->
-<section class="row col-1">
-    <div class="block">
-        <h2>Informations du CMS</h2>
-        <p>
-            CMS Ver. {{ version }}<br />
-            Dernière mise à jour : {{ date_update }}
-        </p>
-        <p>
-            Symfony Ver. {{ symfonyversion }}<br />
-            PHP Ver. {{ phpversion }}
-        </p>
-        <p>
-            Conception et développement :  Creative Eye Studio
-        </p>
-    </div>
-</section>
+<div class="block">
+    <a href="{{ path('app_ext_planning_add') }}" class="btn-link">Ajouter un horaire</a>
+    <div id="calendar" class="mt-4"></div>
+</div>
 {% endblock %}

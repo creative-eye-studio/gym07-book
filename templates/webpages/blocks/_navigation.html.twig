@@ -1,8 +1,12 @@
+{% if menus is defined %}
 {% set menuData = menus.findOneBy({'pos': pos}) %}
 {% set sortedMenuLinks = menuData.menulinks|sort((a, b) => a.orderlink <=> b.orderlink) %}
 {% for item in sortedMenuLinks  %}
     {% if item.parent is null %} 
         {{ include('webpages/blocks/__nav-item.html.twig', { "pos": pos, "item": item }) }}
     {% endif %}
-{% endfor %}
+{% endfor %}    
+{% endif %}
+
+
     

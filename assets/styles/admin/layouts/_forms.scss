@@ -6,6 +6,10 @@ input{
         width: 100%;
         padding: .5rem;
     }
+    &[type=date],
+    &[type=time] {
+        padding: .5rem;
+    }
 }
 
 select{
@@ -26,6 +30,7 @@ legend{
 }
 
 label{
+    display: block !important;
     &.required{
         &::after{
             content: '*';

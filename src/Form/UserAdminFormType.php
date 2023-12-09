@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,12 +24,17 @@ class UserAdminFormType extends AbstractType
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Administrateur' => 'ROLE_ADMIN',
-                    'Editeur' => 'ROLE_EDITOR',
-                    'Contributeur' => 'ROLE_CONTRIBUTOR',
+                    'Forfait annuel' => 'ROLE_ANNUEL',
+                    'Forfait 10 sessions' => 'ROLE_10SESSIONS',
+                    'Forfait 10 découverte' => 'ROLE_DECOUVERTE',
                     'Invité' => 'ROLE_USER',
                 ],
-                'label' => "Droits d'utilisateur",
+                'label' => "Type d'adhésion",
                 'mapped' => false
+            ])
+            ->add('credits', NumberType::class, [
+                'label' => "Crédits",
+                'html5' => true
             ])
             ->add('remake_pass', CheckboxType::class, [
                 'label' => "Modifier le mot de passe",

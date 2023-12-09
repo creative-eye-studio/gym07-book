@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AdminRegisterController extends AbstractController
 {
-    #[Route('/admin/register', name: 'app_admin_register' )]
+    #[Route('/admin/register', name: 'app_admin_register')]
     public function index(ManagerRegistry $doctrine, Request $request, UserPasswordHasherInterface $encoder, FormsService $formService, JWTService $jwt): Response
     {
         $user = new User();
@@ -47,9 +47,7 @@ class AdminRegisterController extends AbstractController
             ];
 
             $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
-
             $formService->validateRegister($user->getEmail(), $user->getFirstName(), $token);
-
             $notif = "Le compte a bien été crée";
         }
 
@@ -70,7 +68,7 @@ class AdminRegisterController extends AbstractController
             $user = $userRepository->find($payload['user_id']);
 
             //On vérifie que l'utilisateur existe et n'a pas encore activé son compte
-            if($user && !$user->getIsVerified()){
+            if ($user && !$user->getIsVerified()) {
                 $user->setIsVerified(true);
                 $em->flush($user);
                 $this->addFlash('success', 'Utilisateur activé');

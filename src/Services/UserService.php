@@ -26,6 +26,11 @@ class UserService extends AbstractController
         return $users;
     }
 
+    public function getAdherents($role) {
+        $user = $this->userRepo->findBy(['roles' => [$role]]);
+        return $user;
+    }
+
     function getUserCMS(int $id){
         $user = $this->userRepo->findOneBy(['id' => $id]);
         return $user;

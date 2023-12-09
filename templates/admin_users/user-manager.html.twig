@@ -8,10 +8,13 @@
         {{ form_start(form) }}
             <p>{{ form_row(form.email) }}</p>
             <p>
-                {{ form_label(form.roles) }}<br />
+                {{ form_label(form.roles) }}
                 {{ form_widget(form.roles, {value: userRole}) }}
             </p>
-            <p>{{ form_row(form.remake_pass) }}</p>
+            <p>{{ form_row(form.credits) }}</p>
+            <p class="d-flex">
+                {{ form_widget(form.remake_pass) }} {{ form_label(form.remake_pass) }}
+            </p>
             <p>{{ form_row(form.submit) }}</p>
         {{ form_end(form) }}
     </section>

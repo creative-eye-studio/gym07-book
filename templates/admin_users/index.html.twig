@@ -4,18 +4,106 @@
 
 {% block body %}
     <section class="block">
-        <a class="btn-link float-right" href="{{ path('app_admin_register') }}">Ajouter un utilisateur</a>
+        <a class="btn-link float-right" href="{{ path('app_admin_register') }}">Ajouter un adhérent / admin</a>
         <h2>Liste des utilisateurs</h2>
-        {% for user in users %}
-        <div class="line">
-            <p>{{ user.firstname }} {{ user.lastname }}</p>
-            <ul>
-                {% if is_granted('ROLE_EDITOR') %}
-                    <li><a href="{{ path('admin_users_modify', { id: user.id }) }}">Modifier</a></li>
-                    <li><a href="{{ path('admin_users_delete', { id: user.id }) }}">Supprimer</a></li>
-                {% endif %}
-            </ul>
+        <div class="tab-container mt-5">
+            <div class="tabs-btn tabs">
+                <li><a class="tab active">Non adhérents</a></li>
+                <li><a class="tab">Forfait découverte</a></li>
+                <li><a class="tab">Forfait 10 places</a></li>
+                <li><a class="tab">Forfait annuel</a></li>
+                <li><a class="tab">Administrateurs</a></li>
+            </div>
+            <div class="tab-panes mt-5">
+                <div class="tab-pane active">
+                    {% for user in users %}
+                        {% if 'ROLE_DECOUVERTE' not in user.roles 
+                        and 'ROLE_10SEANCES' not in user.roles 
+                        and 'ROLE_ANNUEL' not in user.roles
+                        and 'ROLE_ADMIN' not in user.roles %}
+                            <div class="line py-2">
+                                <span>{{ user.lastname }} {{ user.firstname }}</span>
+                                <ul>
+                                    <li>
+                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
+                                    </li>
+                                    <li>
+                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
+                                    </li>
+                                </ul>
+                            </div>    
+                        {% endif %}
+                    {% endfor %} 
+                </div>
+                <div class="tab-pane">
+                    {% for user in users %}
+                        {% if 'ROLE_DECOUVERTE' in user.roles %}
+                            <div class="line py-2">
+                                <span>{{ user.lastname }} {{ user.firstname }}</span>
+                                <ul>
+                                    <li>
+                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
+                                    </li>
+                                    <li>
+                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
+                                    </li>
+                                </ul>
+                            </div>    
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="tab-pane">
+                    {% for user in users %}
+                        {% if 'ROLE_10SEANCES' in user.roles %}
+                            <div class="line py-2">
+                                <span>{{ user.lastname }} {{ user.firstname }}</span>
+                                <ul>
+                                    <li>
+                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
+                                    </li>
+                                    <li>
+                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
+                                    </li>
+                                </ul>
+                            </div>    
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="tab-pane">
+                    {% for user in users %}
+                        {% if 'ROLE_ANNUEL' in user.roles %}
+                            <div class="line py-2">
+                                <span>{{ user.lastname }} {{ user.firstname }}</span>
+                                <ul>
+                                    <li>
+                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
+                                    </li>
+                                    <li>
+                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
+                                    </li>
+                                </ul>
+                            </div>    
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="tab-pane">
+                    {% for user in users %}
+                        {% if 'ROLE_ADMIN' in user.roles %}
+                            <div class="line py-2">
+                                <span>{{ user.lastname }} {{ user.firstname }}</span>
+                                <ul>
+                                    <li>
+                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
+                                    </li>
+                                    <li>
+                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
+                                    </li>
+                                </ul>
+                            </div>    
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        {% endfor %}
     </section>
 {% endblock %}

@@ -47,10 +47,13 @@
 
                     {% if is_granted('ROLE_ADMIN') %}
                     <li>
+                        <a href="{{ path('admin_users') }}">Adhérents</a>
+                    </li>
+                    <li>
                         <a href="{{ path('app_ext_cours_create') }}">Gestion des cours</a>
                     </li>
                     <li>
-                        <a href="{{ path('admin_users') }}">Adhérents</a>
+                        <a href=" {{ path('app_courses_list') }} ">Gestion du planning</a>
                     </li>
                     {# <li>
                         <a href="{{ path('admin_settings') }}">Paramètrage du site</a>

@@ -1,0 +1,71 @@
+{% extends 'admin.html.twig' %}
+
+{% block body %}
+    <section class="block mt-5">
+        <h2>Participants au cours {{ title }}</h2>
+        <div class="mt-4">
+            <p>
+                <strong>Horaires</strong>
+            </p>
+            <ul class="mb-4">
+                <li>Début : {{ datestart | date('d/m/Y - H:i') }}</li>
+                <li>Fin : {{ dateend | date('d/m/Y - H:i') }}</li>
+            </ul>
+            <hr>
+            <div class="tab-container mt-4">
+                <ul class="tabs tabs-btn">
+                    <li><a class="tab active">Validés</a></li>
+                    <li><a class="tab">En attente</a> </li>
+                    <li><a class="tab">Refusés</a> </li>
+                </ul>
+                <div class="tab-panes">
+                    <div class="tab-pane active">
+                    {% for item in list %}
+                        {% if item.etat == 1 %}
+                        <div class="line py-2">
+                            <span class="title">
+                                {{ item.user.firstname }} {{ item.user.lastname }}
+                            </span>
+                            <ul>
+                                <li><a href="{{ path('app_customer_action', {id: item.id, action: 'waiting'}) }}">Mettre en attente</a></li>
+                                <li><a href="{{ path('app_customer_action', {id: item.id, action: 'refuse'}) }}">Refuser</a></li>
+                            </ul>
+                        </div>       
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                    <div class="tab-pane">
+                    {% for item in list %}
+                        {% if item.etat == 0 %}
+                        <div class="line py-2">
+                            <span class="title">
+                                {{ item.user.firstname }} {{ item.user.lastname }}
+                            </span>
+                            <ul>
+                                <li><a href="{{ path('app_customer_action', {id: item.id, action: 'accept'}) }}">Valider</a></li>
+                                <li><a href="{{ path('app_customer_action', {id: item.id, action: 'refuse'}) }}">Refuser</a></li>
+                            </ul>
+                        </div>       
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                    <div class="tab-pane">
+                    {% for item in list %}
+                        {% if item.etat == 2 %}
+                        <div class="line py-2">
+                            <span class="title">
+                                {{ item.user.firstname }} {{ item.user.lastname }}
+                            </span>
+                            <ul>
+                                <li><a href="{{ path('app_customer_action', {id: item.id, action: 'waiting'}) }}">Mettre en attente</a></li>
+                                <li><a href="{{ path('app_customer_action', {id: item.id, action: 'accept'}) }}">Valider</a></li>
+                            </ul>
+                        </div>       
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-use function Symfony\Component\Clock\now;
-
 class ExtPlanningController extends AbstractController
 {
     private $tokenStorage;

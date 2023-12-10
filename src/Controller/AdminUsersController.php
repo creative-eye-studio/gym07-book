@@ -24,8 +24,6 @@ class AdminUsersController extends AbstractController
     #[Route('/admin/users', name: 'admin_users')]
     public function index(): Response
     {
-        dump($this->userService->getUsersCMS());
-
         return $this->render('admin_users/index.html.twig', [
             'users' => $this->userService->getUsersCMS(),
         ]);

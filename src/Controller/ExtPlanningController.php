@@ -50,6 +50,8 @@ class ExtPlanningController extends AbstractController
             'date' => $plan->getDateTimeStart()->format("d-m-Y"),
             'heureDebut' => $plan->getDateTimeStart()->format("H:i"),
             'heureFin' => $plan->getDateTimeEnd()->format("H:i"),
+            'resaCount' => $plan->getReservations()->count(),
+            'places' => $plan->getPlaces(),
             "diffDays" => $diffDays,
             'lastRegister' => $lastRegister,
             'role' => $roles[0],
@@ -83,14 +85,16 @@ class ExtPlanningController extends AbstractController
 
         $user = $token->getUser();
         $plan = $this->planningRepo->find($idPlan);
+        $places = $plan->getPlaces();
 
         if ($user->getCredits() > 0) {
+            $nbResa = $plan->getReservations()->count();
             // Création de la réservation
             $resa = new Reservations();
             $resa->setUser($user);
             $resa->setPlanning($plan);
             $resa->setDateResa(new \DateTime());
-            $resa->setEtat(0);
+            $resa->setEtat($nbResa >= $places ? 0 : 1);
 
             $user->setLastRegister(new \DateTime());
 

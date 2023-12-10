@@ -18,6 +18,12 @@
                 <ul class="mb-4">
                     <li>Date : {{ date }} </li>
                     <li>De {{ heureDebut }} à {{ heureFin }}</li>
+                    {% if resaCount > places %}
+                        <li>Le cours est complet,<br />Mais vous pouvez tout de même vous inscrire et être en liste d'attente pour participer si une place se libère.</li>
+                    {% else %}
+                        <li>Nombre de participants : {{ resaCount }} / {{ places }}</li>
+                    {% endif %}
+                    
                 </ul>
                 {% if creditsUser > 0 %}
                     {% if role == "ROLE_DECOUVERTE" %}

@@ -2,11 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Planning;
+use App\Entity\Reservations;
+use App\Entity\User;
+use App\Form\RegisterCourseType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Services\UserService;
+use Doctrine\ORM\EntityManagerInterface;
 
 class AdminUsersController extends AbstractController
 {
@@ -40,4 +45,48 @@ class AdminUsersController extends AbstractController
         $referer = $request->headers->get('referer');
         return $this->redirect($referer);
     }
+
+    #[Route('/admin/users/regist-course/{id}', name: 'admin_users_regist')]
+    public function registCourse(Request $request, EntityManagerInterface $em, int $id): Response
+    {
+        $user = $em->getRepository(User::class)->find($id);
+
+        $resa = new Reservations();
+        $form = $this->createForm(RegisterCourseType::class, $resa);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $data = $form->getData();
+            if ($user->getCredits() > 0) {
+                // Création de la réservation
+                $planning = $em->getRepository(Planning::class)->find($data->getPlanning()->getId());
+                $resa->setUser($user);
+                $resa->setPlanning($planning);
+                $resa->setDateResa(new \DateTime());
+                $resa->setEtat(0);
+    
+                $user->setLastRegister(new \DateTime());
+    
+                $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN'];
+                if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
+                    $user->setCredits($user->getCredits() - 1);
+                }
+                
+                $em->persist($resa);
+                $em->persist($user);
+                $em->flush();
+            }
+        }
+
+        return $this->render('ext_profile/index.html.twig', [
+            'nom' => $user->getLastname(),
+            'prenom' => $user->getFirstname(),
+            'tel' => $user->getTelephone(),
+            'email' => $user->getEmail(),
+            'credits' => $user->getCredits(),
+            'reservations' => $user->getReservations(),
+            'form' => $form->createView(),
+        ]);
+    }
+
 }

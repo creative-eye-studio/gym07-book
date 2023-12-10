@@ -101,8 +101,6 @@ class ExtPlanningController extends AbstractController
                 $user->setCredits($user->getCredits() - 1);
             }
             
-
-
             $this->em->persist($resa);
             $this->em->persist($user);
             $this->em->flush();

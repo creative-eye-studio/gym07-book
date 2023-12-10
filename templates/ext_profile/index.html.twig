@@ -11,8 +11,13 @@
             <li>Adresse E-Mail : {{ email }}</li>
             <li>Crédits restants : {{ credits }}</li>
         </ul>
+        {% if app.request.attributes.get('_route') == 'admin_users_regist' %}
+            <hr>
+            <h3>Inscrire à un cours</h3>
+            {{ form(form) }}
+        {% endif %}
         <hr>
-        <h3>Mes réservations</h3>
+        <h3>Réservations en cours</h3>
         {% for item in reservations %}
             <div class="line py-3">
                 <span>

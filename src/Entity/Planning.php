@@ -118,4 +118,9 @@ class Planning
 
         return $this;
     }
+
+    public function getFormattedCreatedAt(): string
+    {
+        return $this->dateTimeStart->format('d/m/Y H:i:s');
+    }
 }

@@ -38,10 +38,10 @@ jobs:
       - name: Install dependencies
         run: composer install
 
-      - run: yarn install 
+      # - run: yarn install 
       
-      - name: Build assets with Yarn encore
-        run: yarn encore production
+      # - name: Build assets with Yarn encore
+      #   run: yarn encore production
 
       - name: Deploy to SFTP
         uses: appleboy/scp-action@v0.1.4

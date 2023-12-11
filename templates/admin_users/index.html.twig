@@ -7,7 +7,7 @@
         <a class="btn-link float-right" href="{{ path('app_admin_register') }}">Ajouter un adhérent / admin</a>
         <h2>Liste des utilisateurs</h2>
         <div class="tab-container mt-5">
-            <div class="tabs-btn tabs">
+            <div class="tabs-btn tabs" style="flex-wrap: wrap; gap: 1rem;">
                 <li><a class="tab active">Non adhérents</a></li>
                 <li><a class="tab">Forfait "Pompiers / Gendarmes / Police"</a></li>
                 <li><a class="tab">Forfait "Etudiant / Senior"</a></li>
@@ -131,27 +131,6 @@
                 <div class="tab-pane">
                     {% for user in users %}
                         {% if 'ROLE_1MOIS' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait 3 mois -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_3MOIS' in user.roles %}
                             <div class="line py-2">
                                 <span>{{ user.lastname }} {{ user.firstname }}</span>
                                 <ul>

@@ -30,6 +30,8 @@ class UserAdminFormType extends AbstractType
                     'Forfait 6 mois' => 'ROLE_6MOIS',
                     'Forfait 3 mois' => 'ROLE_3MOIS',
                     'Forfait 1 mois (sans engagement)' => 'ROLE_1MOIS',
+                    'Forfait 1 séance par semaine' => 'ROLE_1SEM',
+                    'Forfait 1 séance' => 'ROLE_1SEANCE',
                     'Forfait Etudiant / Senior' => 'ROLE_ETU_SEN',
                     'Forfait Pompiers/Gendarmes/Police' => 'ROLE_FONCTIONNAIRE',
                     'Invité' => 'ROLE_USER',

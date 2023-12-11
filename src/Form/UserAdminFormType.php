@@ -47,7 +47,7 @@ class UserAdminFormType extends AbstractType
                     'Administrateur' => 'ROLE_ADMIN',
                     'Forfait annuel' => 'ROLE_ANNUEL',
                     'Forfait 10 sessions' => 'ROLE_10SESSIONS',
-                    'Forfait 10 découverte' => 'ROLE_DECOUVERTE',
+                    'Forfait découverte' => 'ROLE_DECOUVERTE',
                     'Forfait 6 mois' => 'ROLE_6MOIS',
                     'Forfait 3 mois' => 'ROLE_3MOIS',
                     'Forfait 1 mois (sans engagement)' => 'ROLE_1MOIS',

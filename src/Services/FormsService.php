@@ -30,13 +30,12 @@ class FormsService
 
         try {
             $this->mailer->send($email);
-            echo "Mail envoyé";
         } catch (\Exception $e) {
             echo $e;
         }
     }
 
-    public function validateRegister(string $userMail, string $userName,  string $token){
+    public function validateRegister(string $userMail, string $userName, string $token){
         $this->send(
             'no-reply@creative-eye.fr',
             $userMail,

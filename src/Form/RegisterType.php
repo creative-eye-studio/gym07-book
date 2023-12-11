@@ -24,6 +24,20 @@ class RegisterType extends AbstractType
             ->add('firstname', TextType::class, [
                 'label' => "Prénom"
             ])
+            ->add('telephone', TextType::class, [
+                'label' => "Téléphone"
+            ])
+            ->add('roles', ChoiceType::class, [
+                'choices' => [
+                    'Administrateur' => 'ROLE_ADMIN',
+                    'Forfait annuel' => 'ROLE_ANNUEL',
+                    'Forfait 10 sessions' => 'ROLE_10SESSIONS',
+                    'Forfait 10 découverte' => 'ROLE_DECOUVERTE',
+                    'Invité' => 'ROLE_USER',
+                ],
+                'label' => "Type d'adhésion",
+                'mapped' => false
+            ])
             ->add('email', EmailType::class, [
                 'label' => "E-Mail"
             ])

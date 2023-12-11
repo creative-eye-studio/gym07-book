@@ -28,9 +28,10 @@ class AdminRegisterController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Enregistrement de l'utilisateur
             $user = $form->getData();
+            // dump($user->get'roles');
             $password = $encoder->hashPassword($user, 'ChangePassword!!!');
             $user->setPassword($password);
-            $user->setRoles(['ROLE_USER']);
+            $user->setRoles([$form->get('roles')->getData()]);
             $user->setIsVerified(false);
             $user->setCredits(0);
             $doctrine = $doctrine->getManager();

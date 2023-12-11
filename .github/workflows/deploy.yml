@@ -1,0 +1,54 @@
+name: Deploy to SFTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      APP_ENV: prod
+      DATABASE_URL: ${{ secrets.DATABASE }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+      
+      - name: Configure Symfony environment
+        run: |
+          # Replace the value of DATABASE_URL in the .env file
+          grep -v '^DATABASE_URL=' .env > .env.tmp && echo "DATABASE_URL='${DATABASE_URL}'" >> .env.tmp && mv .env.tmp .env
+
+      - name: Install Node.js and Yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.18.1' # Choose the Node.js version you need
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'yarn'
+      - run: yarn --version
+
+      - name: Install dependencies
+        run: composer install
+
+      - run: yarn install 
+      
+      - name: Build assets with Yarn encore
+        run: yarn encore production
+
+      - name: Deploy to SFTP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          port: ${{ secrets.FTP_PORT }}
+          source: "., !./.docker/*, !./.github/*, !./.matomo/*" # Local directory to upload
+          target: ${{ secrets.FTP_REMOTE_PATH }} # Remote directory

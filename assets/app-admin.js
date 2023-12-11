@@ -32,7 +32,7 @@ if (container != null) {
 --------------------------------------------*/
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    fetch('https://127.0.0.1:8000/api/planning')
+    fetch('https://book.lasallecrossfit.fr/api/planning')
         .then(response => response.json())
         .then(data => {
             

@@ -54,6 +54,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_debut_adh = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date_fin_adh = null;
+
     public function __construct()
     {
         $this->postsLists = new ArrayCollection();
@@ -258,6 +264,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(?string $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getDateDebutAdh(): ?\DateTimeInterface
+    {
+        return $this->date_debut_adh;
+    }
+
+    public function setDateDebutAdh(?\DateTimeInterface $date_debut_adh): static
+    {
+        $this->date_debut_adh = $date_debut_adh;
+
+        return $this;
+    }
+
+    public function getDateFinAdh(): ?\DateTimeInterface
+    {
+        return $this->date_fin_adh;
+    }
+
+    public function setDateFinAdh(?\DateTimeInterface $date_fin_adh): static
+    {
+        $this->date_fin_adh = $date_fin_adh;
 
         return $this;
     }

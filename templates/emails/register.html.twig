@@ -1,6 +1,6 @@
 <h1>Activez votre compte</h1>
 <p>Bonjour {{ user }}</p>
-<p>Votre inscription sur le CMS Dream Site pour le site "{{ site_name }}" est à valider en cliquant sur le lien ci-dessous :</p>
+<p>Votre inscription sur le CMS Dream Site pour l'application "{{ site_name }}" est à valider en cliquant sur le lien ci-dessous :</p>
 <p><a href="{{ absolute_url(path('verify_user', {token: token})) }}"><strong>Valider mon inscription</strong></a></p>
 
 <p>Votre mot de passe est "ChangePassword!!!" .<br />

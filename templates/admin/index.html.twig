@@ -4,7 +4,9 @@
 
 {% block body %}
 <div class="block">
-    <a href="{{ path('app_ext_planning_add') }}" class="btn-link">Ajouter un horaire</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_ext_planning_add') }}" class="btn-link">Ajouter un horaire</a>
+    {% endif %}
     <div id="calendar" class="mt-4"></div>
 </div>
 {% endblock %}

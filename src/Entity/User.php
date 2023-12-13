@@ -60,6 +60,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date_fin_adh = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeCustomerId = null;
+
     public function __construct()
     {
         $this->postsLists = new ArrayCollection();
@@ -288,6 +291,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateFinAdh(?\DateTimeInterface $date_fin_adh): static
     {
         $this->date_fin_adh = $date_fin_adh;
+
+        return $this;
+    }
+
+    public function getStripeCustomerId(): ?string
+    {
+        return $this->stripeCustomerId;
+    }
+
+    public function setStripeCustomerId(?string $stripeCustomerId): static
+    {
+        $this->stripeCustomerId = $stripeCustomerId;
 
         return $this;
     }

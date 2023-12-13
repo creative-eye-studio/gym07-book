@@ -1,0 +1,21 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Acheter une place{% endblock %}
+
+{% block body %}
+    <section class="block mt-5">
+        <h2>Acheter une place pour un cours</h2>
+        <article class="mt-4">
+            <h3>Récapitulatif du cours</h3>
+            <ul class="mt-4">
+                <li>Nom du cours : {{ plan.cours.nomcours }}</li>
+                <li>Date de début : {{ plan.datetimestart|date("d M Y - H:i") }}</li>
+                <li>Date de fin : {{ plan.datetimeend|date("d M Y - H:i") }}</li>
+            </ul>
+            <hr>
+            <p>
+                <a href="{{ path('process_payment') }}" class="btn-link">Passer une commande</a>
+            </p>
+        </article>
+    </section>
+{% endblock %}

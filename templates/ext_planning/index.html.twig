@@ -38,7 +38,7 @@
                         <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p> 
                     {% endif %} 
                 {% else %}
-                    <p>Section achat à venir</p>   
+                    <p><a href="{{ path('process_payment') }}" class="btn-link">Acheter un cours à l'unité</a></p>   
                 {% endif %}
             </div>
         </div>

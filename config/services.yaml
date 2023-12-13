@@ -6,6 +6,8 @@
 parameters:
     app.jwtsecret: '%env(JWT_SECRET)%'
     posts_img_directory: '%kernel.project_dir%/public/uploads/images/posts'
+    public_key: '%env(STRIPE_PUBLIC_KEY)%'
+    secret_key: '%env(STRIPE_SECRET_KEY)%'
 
 services:
     # default configuration for services in *this* file

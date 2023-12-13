@@ -31,14 +31,27 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: '^/login', roles: PUBLIC_ACCESS }
-        - { path: '^/admin/*', roles: [IS_AUTHENTICATED_FULLY, ROLE_DECOUVERTE] }
-        - { path: '^/admin/users', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN] }
-        - { path: '^/admin/register', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN] }
-        - { path: '^/admin/settings', roles: [IS_AUTHENTICATED_FULLY, ROLE_ADMIN] }
+        - { path: '^/admin/courses-list', role: ROLE_ADMIN, requires_channel: https }
+        - { path: '^/admin/participants/*', role: ROLE_ADMIN, requires_channel: https }
+        - { path: '^/admin/users', role: ROLE_ADMIN, requires_channel: https }
+        - { path: '^/admin/users/regist-course/*', role: ROLE_ADMIN, requires_channel: https }
+        - { path: '^/admin/register', role: ROLE_ADMIN, requires_channel: https }
+        - { path: '^/admin/settings', role: ROLE_ADMIN, requires_channel: https }
+        - { path: '^/admin', role: ROLE_USER, requires_channel: https }
+        # - { path: '^/login', role: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+
     role_hierarchy:
-        ROLE_10SEANCES: ROLE_DECOUVERTE
-        ROLE_ANNUEL: ROLE_10SEANCES
+        ROLE_USER: ROLE_USER
+        ROLE_FONCTIONNAIRE: ROLE_USER
+        ROLE_ETU_SEN: ROLE_USER
+        ROLE_1SEANCE: ROLE_USER
+        ROLE_1SEM: ROLE_USER
+        ROLE_1MOIS: ROLE_USER
+        ROLE_3MOIS: ROLE_USER
+        ROLE_6MOIS: ROLE_USER
+        ROLE_DECOUVERTE: ROLE_USER
+        ROLE_10SESSIONS: ROLE_USER
+        ROLE_ANNUEL: ROLE_USER
         ROLE_ADMIN: ROLE_ANNUEL
 
 when@test:

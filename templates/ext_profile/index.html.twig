@@ -24,7 +24,14 @@
         {% for item in reservations %}
             <div class="line py-3">
                 <span>
-                    {{ item.planning.cours.nomcours }}<br />
+                    {{ item.planning.cours.nomcours }}
+                    <span>
+                        {% if item.etat == 1 %}
+                        (Validé)
+                        {% else %}
+                        (En attente)
+                        {% endif %}
+                    </span><br />
                     {{ item.planning.datetimestart | date('d/m/Y H:i') }} - {{ item.planning.datetimeend | date('d/m/Y H:i') }}
                 </span>
             </div>

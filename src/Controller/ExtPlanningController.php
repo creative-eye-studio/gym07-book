@@ -68,8 +68,8 @@ class ExtPlanningController extends AbstractController
 
         $form = $this->createForm(ExtPlanningType::class, $planning);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($planning);
             $this->em->flush();
         }
@@ -89,42 +89,45 @@ class ExtPlanningController extends AbstractController
         $plan = $this->planningRepo->find($idPlan);
         $places = $plan->getPlaces();
 
-        if ($user->getCredits() > 0) {
-            $nbResa = $plan->getReservations()->count();
-            // Création de la réservation
-            $resa = new Reservations();
-            $resa->setUser($user);
-            $resa->setPlanning($plan);
-            $resa->setDateResa(new \DateTime());
-            $resa->setEtat($nbResa >= $places ? 0 : 1);
+        $nbResa = $plan->getReservations()->count();
 
-            $user->setLastRegister(new \DateTime());
+        // Création de la réservation
+        $resa = new Reservations();
+        $resa->setUser($user);
+        $resa->setPlanning($plan);
+        $resa->setDateResa(new \DateTime());
+        $resa->setEtat($nbResa >= $places ? 0 : 1);
 
+        $user->setLastRegister(new \DateTime());
+
+        if ($user->getFreeCourses() > 0) {
+            $user->setFreeCourses($user->getFreeCourses() - 1);
+        } elseif ($user->getCredits() > 0) {
             $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN'];
             if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
-                if ($user->getFreeCourses() == 0) {
-                    $user->setCredits($user->getCredits() - 1);
-                } else {
-                    $user->setFreeCourses($user->getFreeCourses() - 1);
-                }
+                $user->setCredits($user->getCredits() - 1);
             }
-            
-            $this->em->persist($resa);
-            $this->em->persist($user);
-            $this->em->flush();
+        } else {
+            return false;
         }
+
+        $this->em->persist($resa);
+        $this->em->persist($user);
+        $this->em->flush();
+
 
         return new RedirectResponse($this->generateUrl('app_ext_profile'));
     }
 
-    function compareDates($date1, $date2) {
+    function compareDates($date1, $date2)
+    {
         // Convertissez les chaînes de date en objets DateTime
         $dateTime1 = new DateTime($date1);
         $dateTime2 = new DateTime($date2);
-    
+
         // Calculez la différence entre les deux dates
         $difference = $dateTime1->diff($dateTime2);
-    
+
         // Comparez le nombre de jours de différence
         return $difference->days > 7;
     }

@@ -66,6 +66,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $free_courses = null;
 
+    #[ORM\Column]
+    private ?bool $payment_success = null;
+
     public function __construct()
     {
         $this->postsLists = new ArrayCollection();
@@ -318,6 +321,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setFreeCourses(int $free_courses): static
     {
         $this->free_courses = $free_courses;
+
+        return $this;
+    }
+
+    public function isPaymentSuccess(): ?bool
+    {
+        return $this->payment_success;
+    }
+
+    public function setPaymentSuccess(bool $payment_success): static
+    {
+        $this->payment_success = $payment_success;
 
         return $this;
     }

@@ -2,33 +2,51 @@
 
 namespace App\Controller;
 
+use App\Entity\Cours;
+use App\Entity\Planning;
 use App\Entity\Products;
+use App\Entity\Reservations;
 use Doctrine\ORM\EntityManagerInterface;
-use Stripe\Stripe;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class PaymentController extends AbstractController
 {
-    private $em;
 
-    function __construct(EntityManagerInterface $em)
+    private $em;
+    private $tokenStorage;
+
+    function __construct(EntityManagerInterface $em, TokenStorageInterface $tokenStorage)
     {
         $this->em = $em;
+        $this->tokenStorage = $tokenStorage;
     }
 
     #[Route('/payment-success', name: 'payment_success')]
-    public function payment(Request $request)
+    public function payment(Security $security)
     {
-        Stripe::setApiKey($this->getParameter('secret_key'));
+        $user = $security->getUser();
 
-        return $this->render('payment/index.html.twig');
+        if ($user && $user->isPaymentSuccess()) {
+
+            // Réinitialiser le statut de paiement à false après le traitement réussi
+            $user->setPaymentSuccess(false);
+            $this->em->persist($user);
+            $this->em->flush();
+
+            return $this->render('payment/index.html.twig');
+        } else {
+            throw new NotFoundHttpException('Aucun paiement n\'a été effectué.');
+        }
     }
 
-    #[Route(path: '/process-payment', name: 'process_payment')]
-    public function processPayment(Request $request, Security $security)
+    #[Route(path: '/process-payment/{idPlan}', name: 'process_payment')]
+    public function processPayment(Request $request, Security $security, int $idPlan)
     {
         // Récupération de la route
         $domain = 'https://' . $request->getHost() . ':8000';
@@ -53,7 +71,7 @@ class PaymentController extends AbstractController
               'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => $domain . '/payment-success',
+            'success_url' => $domain . '/check-payment/' . $idPlan,
             'cancel_url' => $domain . '/cancel',
         ]);
         
@@ -61,23 +79,41 @@ class PaymentController extends AbstractController
         return $this->redirect($checkout_session->url);
     }
 
-    private function getStripeCustomer($user)
+    #[Route(path: '/check-payment/{idPlan}', name: 'check_payment')]
+    public function handleStripeWebhook(Security $security, int $idPlan)
     {
-        if ($user->getStripeCustomerId()) {
-            // Si le client Stripe existe déjà, récupérez-le
-            return \Stripe\Customer::retrieve($user->getStripeCustomerId());
-        } else {
-            // Sinon, créez un nouveau client Stripe
-            $customer = \Stripe\Customer::create([
-                'email' => $user->getEmail(),
-            ]);
+        $user = $security->getUser();
 
-            // Enregistrez l'ID du client Stripe dans votre entité utilisateur Symfony
-            $user->setStripeCustomerId($customer->id);
+        if ($user) {
+            // Réservation du cours
+            $this->reserveCourse($security, $idPlan);
+
+            // Redirection vers la page de confirmation
+            $user->setPaymentSuccess(true);
             $this->em->persist($user);
             $this->em->flush();
 
-            return $customer;
+            return new RedirectResponse($this->generateUrl('payment_success'));
         }
+    }
+
+    private function reserveCourse(Security $security, int $idPlan)
+    {
+        $resa = new Reservations();
+        $plan = $this->em->getRepository(Planning::class)->find($idPlan);
+        $nbResa = $plan->getReservations()->count();
+        $places = $plan->getPlaces();
+        $user = $security->getUser();
+
+        $resa->setPlanning($plan);
+        $resa->setUser($user);
+        $resa->setDateResa(new \DateTime());
+        $resa->setEtat($nbResa >= $places ? 0 : 1);
+
+        $user->setLastRegister(new \DateTime());
+
+        $this->em->persist($resa);
+        $this->em->persist($user);
+        $this->em->flush();
     }
 }

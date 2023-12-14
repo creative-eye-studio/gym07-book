@@ -25,20 +25,24 @@
                     {% endif %}
                     
                 </ul>
-                {% if creditsUser > 0 %}
-                    {% if role == "ROLE_DECOUVERTE" %}
-                        {% if lastRegister != null %}
-                            {% if diffDays %}
+                {% if freeCourses > 0 %}
+                    {% if creditsUser > 0 %}
+                        {% if role == "ROLE_DECOUVERTE" %}
+                            {% if lastRegister != null %}
+                                {% if diffDays %}
+                                    <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p>
+                                {% endif %}
+                            {% else %}
                                 <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p>
                             {% endif %}
                         {% else %}
-                            <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p>
-                        {% endif %}
+                            <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p> 
+                        {% endif %} 
                     {% else %}
-                        <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p> 
-                    {% endif %} 
+                        <p><a href="{{ path('process_payment') }}" class="btn-link">Acheter un cours à l'unité</a></p>   
+                    {% endif %}
                 {% else %}
-                    <p><a href="{{ path('process_payment') }}" class="btn-link">Acheter un cours à l'unité</a></p>   
+                    <p><a href=" {{ path('app_ext_planning_register', {idPlan: id}) }} " class="btn-link">Réserver un cours</a></p>
                 {% endif %}
             </div>
         </div>

@@ -34,6 +34,7 @@ class AdminRegisterController extends AbstractController
             $user->setRoles([$form->get('roles')->getData()]);
             $user->setIsVerified(false);
             $user->setCredits(0);
+            $user->setFreeCourses(2);
             $doctrine = $doctrine->getManager();
             $doctrine->persist($user);
             $doctrine->flush();

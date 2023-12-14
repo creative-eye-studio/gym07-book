@@ -31,7 +31,8 @@ class ExtProfileController extends AbstractController
             'tel' => $user->getTelephone(),
             'email' => $user->getEmail(),
             'credits' => $user->getCredits(),
-            'reservations' => $user->getReservations()
+            'reservations' => $user->getReservations(),
+            'free_courses' => $user->getFreeCourses(),
         ]);
     }
 }

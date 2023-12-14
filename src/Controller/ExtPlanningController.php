@@ -36,6 +36,7 @@ class ExtPlanningController extends AbstractController
             $roles = $user->getRoles();
             $lastRegister = $user->getLastRegister() != null ? $user->getLastRegister()->format("Y-m-d") : "";
             $creditsUser = $user->getCredits();
+            $freeCourses = $user->getFreeCourses();
         }
 
         $plan = $this->planningRepo->find($id);
@@ -56,6 +57,7 @@ class ExtPlanningController extends AbstractController
             'lastRegister' => $lastRegister,
             'role' => $roles[0],
             "creditsUser" => $creditsUser,
+            'freeCourses' => $freeCourses
         ]);
     }
 
@@ -100,7 +102,11 @@ class ExtPlanningController extends AbstractController
 
             $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN'];
             if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
-                $user->setCredits($user->getCredits() - 1);
+                if ($user->getFreeCourses() == 0) {
+                    $user->setCredits($user->getCredits() - 1);
+                } else {
+                    $user->setFreeCourses($user->getFreeCourses() - 1);
+                }
             }
             
             $this->em->persist($resa);

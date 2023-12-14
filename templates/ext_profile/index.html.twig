@@ -10,6 +10,9 @@
             <li>Téléphone : {{ tel }}</li>
             <li>Adresse E-Mail : {{ email }}</li>
             <li>Crédits restants : {{ credits }}</li>
+            {% if free_courses > 0 %}
+                <li>Nombre de cours offerts : {{ free_courses }}</li>
+            {% endif %}
         </ul>
         {% if app.request.attributes.get('_route') == 'admin_users_regist' %}
             <hr>

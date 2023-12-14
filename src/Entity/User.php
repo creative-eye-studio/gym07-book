@@ -63,6 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $stripeCustomerId = null;
 
+    #[ORM\Column]
+    private ?int $free_courses = null;
+
     public function __construct()
     {
         $this->postsLists = new ArrayCollection();
@@ -303,6 +306,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStripeCustomerId(?string $stripeCustomerId): static
     {
         $this->stripeCustomerId = $stripeCustomerId;
+
+        return $this;
+    }
+
+    public function getFreeCourses(): ?int
+    {
+        return $this->free_courses;
+    }
+
+    public function setFreeCourses(int $free_courses): static
+    {
+        $this->free_courses = $free_courses;
 
         return $this;
     }

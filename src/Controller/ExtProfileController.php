@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Services\InscriptionsService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,10 +10,12 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class ExtProfileController extends AbstractController
 {
+    private $inscService;
     private $tokenStorage;
 
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage, InscriptionsService $inscService)
     {
+        $this->inscService = $inscService;
         $this->tokenStorage = $tokenStorage;
     }
 
@@ -34,5 +37,12 @@ class ExtProfileController extends AbstractController
             'reservations' => $user->getReservations(),
             'free_courses' => $user->getFreeCourses(),
         ]);
+    }
+
+    #[Route('/admin/profile/cancel/{id}', name: 'cancel_stud_insc')]
+    public function cancelReservation(int $id)
+    {
+        $this->inscService->cancelInscription($id);
+        return $this->redirectToRoute('app_ext_profile');
     }
 }

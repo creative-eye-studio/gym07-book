@@ -97,6 +97,7 @@ class ExtPlanningController extends AbstractController
         $resa->setPlanning($plan);
         $resa->setDateResa(new \DateTime());
         $resa->setEtat($nbResa >= $places ? 0 : 1);
+        $resa->setUnit(false);
 
         $user->setLastRegister(new \DateTime());
 

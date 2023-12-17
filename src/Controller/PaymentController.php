@@ -109,6 +109,7 @@ class PaymentController extends AbstractController
         $resa->setUser($user);
         $resa->setDateResa(new \DateTime());
         $resa->setEtat($nbResa >= $places ? 0 : 1);
+        $resa->setUnit(true);
 
         $user->setLastRegister(new \DateTime());
 

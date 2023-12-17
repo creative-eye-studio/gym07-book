@@ -28,6 +28,8 @@
                     <span>
                         {% if item.etat == 1 %}
                         (Validé)
+                        {% elseif item.etat == 2 %}
+                        (Refusé)
                         {% else %}
                         (En attente)
                         {% endif %}

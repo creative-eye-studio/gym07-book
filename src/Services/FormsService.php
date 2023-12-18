@@ -47,4 +47,17 @@ class FormsService
             ]
         );
     }
+
+    public function confirmRegister(string $userMail, string $userName, string $token){
+        $this->send(
+            'no-reply@creative-eye.fr',
+            $userMail,
+            "Création de votre compte sur le site",
+            'confirm',
+            [
+                'user' => $userName,
+                'token' => $token
+            ]
+        );
+    }
 }

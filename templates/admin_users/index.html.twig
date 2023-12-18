@@ -214,7 +214,7 @@
                 <!-- Forfait 10 séances -->
                 <div class="tab-pane">
                     {% for user in users %}
-                        {% if 'ROLE_10SEANCES' in user.roles %}
+                        {% if 'ROLE_10SESSIONS' in user.roles %}
                             <div class="line py-2">
                                 <span>{{ user.lastname }} {{ user.firstname }}</span>
                                 <ul>

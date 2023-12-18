@@ -24,7 +24,7 @@
                         {% if item.etat == 1 %}
                         <div class="line py-2">
                             <span class="title">
-                                {{ item.user.firstname }} {{ item.user.lastname }}
+                                {{ item.user.firstname }} {{ item.user.lastname }} {% if item.unit %}- <em>Achat à l'unité</em>{% endif %}
                             </span>
                             <ul>
                                 <li><a href="{{ path('app_customer_action', {id: item.id, action: 'waiting'}) }}">Mettre en attente</a></li>

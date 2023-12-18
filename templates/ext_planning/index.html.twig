@@ -13,7 +13,7 @@
                     <p>{{ description }}</p>
                 </div>
                 <ul>
-                    <li>Crédits : {{ credits }}</li>
+                    <li>Crédits nécessaires : {{ credits }}</li>
                 </ul>
                 <ul class="mb-4">
                     <li>Date : {{ date }} </li>
@@ -28,6 +28,7 @@
 
                 {% if (role == "ROLE_DECOUVERTE" and (diffDays or lastRegister is null)) or (role != "ROLE_DECOUVERTE") %}
                     {% if freeCourses <= 0 and creditsUser <= 0 %}
+                        <p>Si vous souhaitez acheter un abonnement ou une carte, merci de passer pas l'accueil sur les horaires d'ouvertures, nous débloquerons vos crédits à ce moment là.</p>
                         <p>
                             <a href="{{ path('process_payment', {idPlan: id}) }}" class="btn-link">Acheter un cours à l'unité</a>
                         </p>

@@ -28,12 +28,15 @@
                     <span>
                         {% if item.etat == 1 %}
                         (Validé)
+                        {% elseif item.etat == 2 %}
+                        (Refusé)
                         {% else %}
                         (En attente)
                         {% endif %}
                     </span><br />
                     {{ item.planning.datetimestart | date('d/m/Y H:i') }} - {{ item.planning.datetimeend | date('d/m/Y H:i') }}
                 </span>
+                <p><a href="{{ path('cancel_stud_insc', {id: item.id}) }}">Annuler mon inscription</a></p>
             </div>
         {% endfor %}
     </div>

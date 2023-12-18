@@ -49,7 +49,7 @@ class PaymentController extends AbstractController
     public function processPayment(Request $request, Security $security, int $idPlan)
     {
         // Récupération de la route
-        $domain = 'https://' . $request->getHost() . ':8000';
+        $domain = 'https://' . $request->getHost();
 
         // Obtention du produit
         $product = $this->em->getRepository(Products::class)->find(1);

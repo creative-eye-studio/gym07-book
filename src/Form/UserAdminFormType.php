@@ -53,7 +53,7 @@ class UserAdminFormType extends AbstractType
                     'Forfait 1 mois' => 'ROLE_1MOIS',
                     'Forfait 1 séance' => 'ROLE_1SEANCE',
                     'Forfait Etudiant / Senior' => 'ROLE_ETU_SEN',
-                    'Forfait Pompiers/Gendarmes/Police' => 'ROLE_FONCTIONNAIRE',
+                    'Forfait Pompiers / Gendarmes / Police' => 'ROLE_FONCTIONNAIRE',
                     'Invité' => 'ROLE_USER',
                 ],
                 'label' => "Type d'adhésion",

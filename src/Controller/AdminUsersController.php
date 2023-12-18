@@ -62,6 +62,7 @@ class AdminUsersController extends AbstractController
                 $resa->setPlanning($planning);
                 $resa->setDateResa(new \DateTime());
                 $resa->setEtat(0);
+                $resa->setUnit(false);
     
                 $user->setLastRegister(new \DateTime());
     
@@ -87,6 +88,7 @@ class AdminUsersController extends AbstractController
             'email' => $user->getEmail(),
             'credits' => $user->getCredits(),
             'reservations' => $user->getReservations(),
+            'free_courses' => $user->getFreeCourses(),
             'form' => $form->createView(),
         ]);
     }

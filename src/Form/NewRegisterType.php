@@ -30,6 +30,12 @@ class NewRegisterType extends AbstractType
                     'class' => 'mb'
                 ]
             ])
+            ->add('telephone', TelType::class, [
+                'label' => "Téléphone", 
+                'row_attr' => [
+                    'class' => 'mt mb'
+                ]
+            ])
             ->add('email', EmailType::class, [
                 'label' => "E-Mail", 
                 'row_attr' => [
@@ -44,15 +50,14 @@ class NewRegisterType extends AbstractType
                 'first_options'  => [
                     'label' => 'Mot de passe', 
                     'row_attr' => [
-                        'class' => 'mt mb'
+                        'class' => 'mb'
                     ]
                 ],
-                'second_options' => ['label' => 'Confirmation du mot de passe']
-            ])
-            ->add('telephone', TelType::class, [
-                'label' => "Téléphone", 
-                'row_attr' => [
-                    'class' => 'mt mb'
+                'second_options' => [
+                    'label' => 'Confirmation du mot de passe',
+                    'row_attr' => [
+                        'class' => 'mb'
+                    ]
                 ]
             ])
             ->add('submit', SubmitType::class, [

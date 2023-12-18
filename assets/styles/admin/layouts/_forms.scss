@@ -1,6 +1,7 @@
 input{
     &[type=text],
     &[type=email],
+    &[type=tel],
     &[type=number],
     &[type=password]{
         width: 100%;

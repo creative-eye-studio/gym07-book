@@ -35,6 +35,7 @@ class AdminRegisterController extends AbstractController
             $user->setIsVerified(false);
             $user->setCredits(0);
             $user->setFreeCourses(2);
+            $user->setPaymentSuccess(false);
             $doctrine = $doctrine->getManager();
             $doctrine->persist($user);
             $doctrine->flush();

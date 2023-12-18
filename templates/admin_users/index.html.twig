@@ -12,8 +12,7 @@
                 <li><a class="tab">Forfait "Pompiers / Gendarmes / Police"</a></li>
                 <li><a class="tab">Forfait "Etudiant / Senior"</a></li>
                 <li><a class="tab">Forfait "1 séance"</a></li>
-                <li><a class="tab">Forfait "1 séance / semaine"</a></li>
-                <li><a class="tab">Forfait "1 mois (sans engagement)"</a></li>
+                <li><a class="tab">Forfait "1 mois"</a></li>
                 <li><a class="tab">Forfait "3 mois"</a></li>
                 <li><a class="tab">Forfait "6 mois"</a></li>
                 <li><a class="tab">Forfait découverte</a></li>
@@ -89,27 +88,6 @@
                 <div class="tab-pane">
                     {% for user in users %}
                         {% if 'ROLE_1SEANCE' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait 1 séance par semaine -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_1SEM' in user.roles %}
                             <div class="line py-2">
                                 <span>{{ user.lastname }} {{ user.firstname }}</span>
                                 <ul>
@@ -211,7 +189,7 @@
                         {% endif %}
                     {% endfor %}
                 </div>
-                <!-- Forfait 10 séances -->
+                <!-- Forfait 10 sessions -->
                 <div class="tab-pane">
                     {% for user in users %}
                         {% if 'ROLE_10SESSIONS' in user.roles %}

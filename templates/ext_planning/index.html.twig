@@ -26,7 +26,7 @@
                     
                 </ul>
 
-                {% if (role == "ROLE_DECOUVERTE" and (diffDays or lastRegister is null)) or (role != "ROLE_DECOUVERTE") %}
+                {% if (role == "ROLE_DECOUVERTE" and (diffDays or lastRegister == "")) or (role != "ROLE_DECOUVERTE") %}
                     {% if freeCourses <= 0 and creditsUser <= 0 %}
                         <p>Si vous souhaitez acheter un abonnement ou une carte, merci de passer par l'accueil sur les horaires d'ouvertures, nous débloquerons vos crédits à ce moment là.</p>
                         <p>

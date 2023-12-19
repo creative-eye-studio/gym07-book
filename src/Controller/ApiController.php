@@ -28,7 +28,7 @@ class ApiController extends AbstractController
     }
 
     #[Route(path: '/api/planning', name: 'api_planning')]
-    public function Apiplanning()
+    public function ApiPlanning()
     {
         $courses = $this->planningRepo->findAll();
 
@@ -38,6 +38,23 @@ class ApiController extends AbstractController
                 'title' => $course->getCours()->getNomCours() . " | " . $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i"),
                 'start' => $course->getDateTimeStart()->format("Y-m-d"),
                 'url' => '/admin/plan/' . $course->getId()
+            ];
+        }, $courses);
+
+        return $this->json($array);
+    }
+
+    #[Route(path: '/api/planning-admin', name: 'api_planning_admin')]
+    public function ApiAdminPlanning()
+    {
+        $courses = $this->planningRepo->findAll();
+
+        $array = array_map(function ($course) {
+            return [
+                'id' => $course->getId(),
+                'title' => $course->getCours()->getNomCours() . " | " . $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i"),
+                'start' => $course->getDateTimeStart()->format("Y-m-d"),
+                'url' => '/admin/participants/' . $course->getId()
             ];
         }, $courses);
 

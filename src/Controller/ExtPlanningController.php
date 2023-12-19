@@ -88,6 +88,7 @@ class ExtPlanningController extends AbstractController
         $user = $token->getUser();
         $plan = $this->planningRepo->find($idPlan);
         $places = $plan->getPlaces();
+        $credits = $plan->getCours()->getCredits();
 
         $nbResa = $plan->getReservations()->count();
 
@@ -106,7 +107,7 @@ class ExtPlanningController extends AbstractController
         } elseif ($user->getCredits() > 0) {
             $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN', 'ROLE_6MOIS', 'ROLE_3MOIS', 'ROLE_1MOIS', 'ROLE_ETU_SEN', 'ROLE_FONCTIONNAIRE'];
             if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
-                $user->setCredits($user->getCredits() - 1);
+                $user->setCredits($user->getCredits() - $credits);
             }
         } else {
             return false;

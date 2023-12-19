@@ -14,6 +14,7 @@ import Sortable from 'sortablejs';
 
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import frLocale from '@fullcalendar/core/locales/fr';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 
@@ -32,21 +33,44 @@ if (container != null) {
 --------------------------------------------*/
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-    fetch('https://book.lasallecrossfit.fr/api/planning')
-        .then(response => response.json())
-        .then(data => {
-            
-            var calendar = new Calendar(calendarEl, {
-                plugins: [dayGridPlugin],
-                locale: 'fr',
-                events: data,
-            });
+    if (calendarEl) {
+        fetch('https://book.lasallecrossfit.fr/api/planning')
+            .then(response => response.json())
+            .then(data => {
+                
+                var calendar = new Calendar(calendarEl, {
+                    plugins: [dayGridPlugin],
+                    locale: frLocale,
+                    events: data,
+                });
 
-            calendar.render();
-        })
-        .catch(error => {
-            console.error('Erreur lors de la récupération des événements:', error);
-        });
+                calendar.render();
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des événements:', error);
+            });    
+    }
+    
+
+    var calendarElAdmin = document.getElementById('calendar-admin');
+    if (calendarElAdmin) {
+        fetch('https://book.lasallecrossfit.fr/api/planning-admin')
+            .then(response => response.json())
+            .then(data => {
+                
+                var calendar = new Calendar(calendarElAdmin, {
+                    plugins: [dayGridPlugin],
+                    locale: frLocale,
+                    events: data,
+                });
+
+                calendar.render();
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des événements:', error);
+            });    
+    }
+    
     
 });
 

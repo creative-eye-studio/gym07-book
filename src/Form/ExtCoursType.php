@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,18 +17,21 @@ class ExtCoursType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nom_cours', ChoiceType::class, [
+            ->add('nom_cours', TextType::class, [
                 'label' => "Nom du cours",
-                'choices' => [
-                    "WOD" => "WOD",
-                    "WOD Initiation" => "WOD Initiation",
-                ],
+                'attr' => [
+                    'class' => "mb"
+                ]
+            ])
+            ->add('credits', NumberType::class, [
+                'label' => "Crédits nécessaires",
                 'attr' => [
                     'class' => "mb"
                 ]
             ])
             ->add('description', TextareaType::class, [
                 'label' => "Description du cours",
+                'required' => false,
                 'attr' => [
                     'class' => "mb"
                 ]

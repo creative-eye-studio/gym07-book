@@ -42,6 +42,19 @@ class UserAdminFormType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false
             ])
+            ->add('payment_type', ChoiceType::class, [
+                'label' => "Type de paiement",
+                'choices' => [
+                    'Chèque' => 'Chèque',
+                    'CB' => 'CB',
+                    'Prélèvement' => 'Prélèvement',
+                    'Offert' => 'Offert',
+                    'Espèces' => 'Espèces',
+                ],
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
+            ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
                     'Administrateur' => 'ROLE_ADMIN',
@@ -54,7 +67,7 @@ class UserAdminFormType extends AbstractType
                     'Forfait 1 séance' => 'ROLE_1SEANCE',
                     'Forfait Etudiant / Senior' => 'ROLE_ETU_SEN',
                     'Forfait Pompiers / Gendarmes / Police' => 'ROLE_FONCTIONNAIRE',
-                    'Invité' => 'ROLE_USER',
+                    'Invité' => 'ROLE_BASE',
                 ],
                 'label' => "Type d'adhésion",
                 'mapped' => false

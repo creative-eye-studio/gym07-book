@@ -88,6 +88,7 @@ class AdminUsersController extends AbstractController
             'email' => $user->getEmail(),
             'credits' => $user->getCredits(),
             'reservations' => $user->getReservations(),
+            'payment_type' => $user->getPaymentsType(),
             'free_courses' => $user->getFreeCourses(),
             'form' => $form->createView(),
         ]);

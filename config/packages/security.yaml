@@ -40,7 +40,7 @@ security:
         - { path: '^/admin', role: ROLE_USER, requires_channel: https }
 
     role_hierarchy:
-        ROLE_USER: ROLE_USER
+        ROLE_BASE: ROLE_USER
         ROLE_FONCTIONNAIRE: ROLE_USER
         ROLE_ETU_SEN: ROLE_USER
         ROLE_1SEANCE: ROLE_USER

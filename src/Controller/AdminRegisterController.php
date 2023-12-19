@@ -37,7 +37,7 @@ class AdminRegisterController extends AbstractController
             $user = $form->getData();
             $password = $encoder->hashPassword($user, $form->get('password')->getData());
             $user->setPassword($password);
-            $user->setRoles(['ROLE_USER']);
+            $user->setRoles(['ROLE_BASE']);
             $user->setIsVerified(false);
             $user->setCredits(0);
             $user->setFreeCourses(2);
@@ -77,12 +77,21 @@ class AdminRegisterController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Enregistrement de l'utilisateur
+            $role = $form->get('roles')->getData();
             $user = $form->getData();
             $password = $encoder->hashPassword($user, 'ChangePassword!!!');
             $user->setPassword($password);
-            $user->setRoles([$form->get('roles')->getData()]);
+            $user->setRoles([$role]);
             $user->setIsVerified(false);
-            $user->setCredits(0);
+
+            $roleCreditsMap = [
+                'ROLE_10SESSIONS' => 10,
+                'ROLE_DECOUVERTE' => 4,
+                // Ajoutez d'autres rôles avec leurs crédits correspondants au besoin
+            ];
+            
+            $user->setCredits($roleCreditsMap[$role] ?? 1);            
+
             $user->setFreeCourses(2);
             $user->setPaymentSuccess(false);
             $this->em->persist($user);

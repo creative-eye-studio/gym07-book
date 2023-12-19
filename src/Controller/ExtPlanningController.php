@@ -34,7 +34,7 @@ class ExtPlanningController extends AbstractController
         if ($token) {
             $user = $token->getUser();
             $roles = $user->getRoles();
-            $lastRegister = $user->getLastRegister() != null ? $user->getLastRegister()->format("Y-m-d") : "";
+            $lastRegister = $user->getLastRegister()?->format("Y-m-d") ?? "";
             $creditsUser = $user->getCredits();
             $freeCourses = $user->getFreeCourses();
         }

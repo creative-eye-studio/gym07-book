@@ -69,6 +69,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $payment_success = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $payment_type = null;
+
     public function __construct()
     {
         $this->postsLists = new ArrayCollection();
@@ -333,6 +336,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPaymentSuccess(bool $payment_success): static
     {
         $this->payment_success = $payment_success;
+
+        return $this;
+    }
+
+    public function getPaymentType(): ?string
+    {
+        return $this->payment_type;
+    }
+
+    public function setPaymentType(string $payment_type): static
+    {
+        $this->payment_type = $payment_type;
 
         return $this;
     }

@@ -59,7 +59,8 @@ class UserService extends AbstractController
 
         return $this->render('admin_users/user-manager.html.twig', [
             'form' => $form,
-            'userRole' => $role
+            'userRole' => $role,
+            'paymentType' => $user->getPaymentType(),
         ]);
         return $user;
     }

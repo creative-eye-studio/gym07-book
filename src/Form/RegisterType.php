@@ -20,23 +20,51 @@ class RegisterType extends AbstractType
     {
         $builder
             ->add('lastname', TextType::class, [
-                'label' => "Nom"
+                'label' => "Nom",
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
             ])
             ->add('firstname', TextType::class, [
-                'label' => "Prénom"
+                'label' => "Prénom",
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
             ])
             ->add('telephone', TextType::class, [
-                'label' => "Téléphone"
+                'label' => "Téléphone",
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
             ])
             ->add('date_debut_adh', DateType::class, [
                 'label' => "Date de début d'adhésion",
                 'widget' => 'single_text',
-                'required' => false
+                'required' => false,
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
             ])
             ->add('date_fin_adh', DateType::class, [
                 'label' => "Date de fin d'adhésion",
                 'widget' => 'single_text',
-                'required' => false
+                'required' => false,
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
+            ])
+            ->add('payment_type', ChoiceType::class, [
+                'label' => "Type de paiement",
+                'choices' => [
+                    'Chèque' => 'Chèque',
+                    'CB' => 'CB',
+                    'Prélèvement' => 'Prélèvement',
+                    'Offert' => 'Offert',
+                    'Espèces' => 'Espèces',
+                ],
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
@@ -50,13 +78,19 @@ class RegisterType extends AbstractType
                     'Forfait 1 séance' => 'ROLE_1SEANCE',
                     'Forfait Etudiant / Senior' => 'ROLE_ETU_SEN',
                     'Forfait Pompiers / Gendarmes / Police' => 'ROLE_FONCTIONNAIRE',
-                    'Invité' => 'ROLE_USER',
+                    'Invité' => 'ROLE_BASE',
                 ],
                 'label' => "Type d'adhésion",
-                'mapped' => false
+                'mapped' => false,
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
             ])
             ->add('email', EmailType::class, [
-                'label' => "E-Mail"
+                'label' => "E-Mail",
+                'row_attr' => [
+                    'class' => "mb"
+                ] 
             ])
             
             // ->add('password', RepeatedType::class, [

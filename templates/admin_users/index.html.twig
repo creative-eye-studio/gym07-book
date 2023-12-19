@@ -8,250 +8,48 @@
         <h2>Liste des utilisateurs</h2>
         <div class="tab-container mt-5">
             <div class="tabs-btn tabs" style="flex-wrap: wrap; gap: 1rem;">
-                <li><a class="tab active">Non adhérents</a></li>
-                <li><a class="tab">Forfait "Pompiers / Gendarmes / Police"</a></li>
-                <li><a class="tab">Forfait "Etudiant / Senior"</a></li>
-                <li><a class="tab">Forfait "1 séance"</a></li>
-                <li><a class="tab">Forfait "1 mois"</a></li>
-                <li><a class="tab">Forfait "3 mois"</a></li>
-                <li><a class="tab">Forfait "6 mois"</a></li>
-                <li><a class="tab">Forfait découverte</a></li>
-                <li><a class="tab">Forfait 10 sessions</a></li>
-                <li><a class="tab">Forfait annuel</a></li>
-                <li><a class="tab">Administrateurs</a></li>
+            {% set tabData = [
+                { 'role': 'ROLE_BASE', 'label': 'Non adhérents' },
+                { 'role': 'ROLE_FONCTIONNAIRE', 'label': 'Forfait "Pompiers / Gendarmes / Police"' },
+                { 'role': 'ROLE_ETU_SEN', 'label': 'Forfait "Etudiant / Senior"' },
+                { 'role': 'ROLE_1SEANCE', 'label': 'Forfait "1 séance"' },
+                { 'role': 'ROLE_1MOIS', 'label': 'Forfait "1 mois"' },
+                { 'role': 'ROLE_3MOIS', 'label': 'Forfait "3 mois"' },
+                { 'role': 'ROLE_6MOIS', 'label': 'Forfait "6 mois"' },
+                { 'role': 'ROLE_DECOUVERTE', 'label': 'Forfait découverte' },
+                { 'role': 'ROLE_10SESSIONS', 'label': 'Forfait "10 sessions"' },
+                { 'role': 'ROLE_ANNUEL', 'label': 'Forfait annuel' },
+                { 'role': 'ROLE_ADMIN', 'label': 'Administrateurs' },
+            ] %}
+
+            {% for tab in tabData %}
+                <li><a class="tab{% if loop.first %} active{% endif %}">{{ tab.label }}</a></li>
+            {% endfor %}
             </div>
+
             <div class="tab-panes mt-5">
-                <!-- Non adhérents -->
-                <div class="tab-pane active">
+            {% for tab in tabData %}
+                <div class="tab-pane{% if loop.first %} active{% endif %}">
                     {% for user in users %}
-                        {% if user.roles|length == 1 and 'ROLE_USER' in user.roles %}
+                        {% if tab.role in user.roles %}
                             <div class="line py-2">
                                 <span>{{ user.lastname }} {{ user.firstname }}</span>
                                 <ul>
                                     <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
+                                        <a href="{{ path('admin_users_regist', { id: user.id }) }}">Inscrire à un cours</a>
                                     </li>
                                     <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
+                                        <a href="{{ path('admin_users_modify', { id: user.id }) }}">Modifier</a>
                                     </li>
                                     <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
+                                        <a onclick="return confirm('Voulez-vous vraiment effectuer cette action ?')" href="{{ path('admin_users_delete', { id: user.id }) }}">Supprimer</a>
                                     </li>
                                 </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %} 
-                </div>
-                <!-- Forfait Fonctionnaires -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_FONCTIONNAIRE' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
+                            </div>
                         {% endif %}
                     {% endfor %}
                 </div>
-                <!-- Forfait Etudiants / Senior -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_ETU_SEN' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait 1 séance -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_1SEANCE' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait 1 mois -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_1MOIS' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait 3 mois -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_3MOIS' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait 6 mois -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_6MOIS' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait Découverte -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_DECOUVERTE' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait 10 sessions -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_10SESSIONS' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Forfait annuel -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_ANNUEL' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <!-- Administrateurs -->
-                <div class="tab-pane">
-                    {% for user in users %}
-                        {% if 'ROLE_ADMIN' in user.roles %}
-                            <div class="line py-2">
-                                <span>{{ user.lastname }} {{ user.firstname }}</span>
-                                <ul>
-                                    <li>
-                                        <a href=" {{ path('admin_users_regist', { id: user.id }) }} ">Inscrire à un cours</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_modify', { id: user.id }) }} ">Modifier</a>
-                                    </li>
-                                    <li>
-                                        <a href=" {{ path('admin_users_delete', { id: user.id }) }} ">Supprimer</a>
-                                    </li>
-                                </ul>
-                            </div>    
-                        {% endif %}
-                    {% endfor %}
-                </div>
+            {% endfor %}
             </div>
         </div>
     </section>

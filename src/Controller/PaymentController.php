@@ -67,7 +67,7 @@ class PaymentController extends AbstractController
         // Création de la méthode de paiement
         $checkout_session = \Stripe\Checkout\Session::create([
             'line_items' => [[
-              'price' => 'price_1OMzWdKlM13oW2f4j456V3b0',
+              'price' => $this->getParameter('course_id'),
               'quantity' => 1,
             ]],
             'mode' => 'payment',

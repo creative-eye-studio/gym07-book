@@ -8,6 +8,7 @@ parameters:
     posts_img_directory: '%kernel.project_dir%/public/uploads/images/posts'
     public_key: '%env(STRIPE_PUBLIC_KEY)%'
     secret_key: '%env(STRIPE_SECRET_KEY)%'
+    course_id: '%env(STRIPE_ID_COURSE)%'
 
 services:
     # default configuration for services in *this* file

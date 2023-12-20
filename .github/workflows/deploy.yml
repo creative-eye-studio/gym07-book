@@ -29,11 +29,11 @@ jobs:
 
       - name: Stripe Public Key
         run: |
-          sed -i "s/STRIPE_PUBLIC_KEY=/STRIPE_PUBLIC_KEY=${secrets.STRIPE_PUBLIC_KEY}/g" .env
+          sed -i "s/STRIPE_PUBLIC_KEY=/STRIPE_PUBLIC_KEY=${STRIPE_PUBLIC_KEY}/g" .env
           
       - name: Stripe Private Key
         run: |
-          sed -i "s/STRIPE_SECRET_KEY=/STRIPE_SECRET_KEY=${secrets.STRIPE_PRIVATE_KEY}/g" .env
+          sed -i "s/STRIPE_SECRET_KEY=/STRIPE_SECRET_KEY=${STRIPE_PRIVATE_KEY}/g" .env
 
       - name: Install Node.js and Yarn
         uses: actions/setup-node@v4

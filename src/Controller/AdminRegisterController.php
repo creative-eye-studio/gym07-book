@@ -42,6 +42,7 @@ class AdminRegisterController extends AbstractController
             $user->setCredits(0);
             $user->setFreeCourses(2);
             $user->setPaymentSuccess(false);
+            $user->setPaymentType("Inconnu");
 
             $this->em->persist($user);
             $this->em->flush();

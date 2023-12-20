@@ -27,6 +27,14 @@ jobs:
           # Replace the value of DATABASE_URL in the .env file
           grep -v '^DATABASE_URL=' .env > .env.tmp && echo "DATABASE_URL='${DATABASE_URL}'" >> .env.tmp && mv .env.tmp .env
 
+      - name: Stripe Public Key
+        run: |
+          sed -i "s/STRIPE_PUBLIC_KEY=/STRIPE_PUBLIC_KEY=${{ secrets.STRIPE_PUBLIC_KEY }}/g" .env
+          
+      - name: Stripe Private Key
+        run: |
+          sed -i "s/STRIPE_SECRET_KEY=/STRIPE_SECRET_KEY=${{ secrets.STRIPE_PRIVATE_KEY }}/g" .env
+
       - name: Install Node.js and Yarn
         uses: actions/setup-node@v4
         with:

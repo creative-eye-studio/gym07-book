@@ -121,6 +121,24 @@ class ExtPlanningController extends AbstractController
         return new RedirectResponse($this->generateUrl('app_ext_profile'));
     }
 
+    #[Route('/admin/planning/delete/{id}', name: 'app_ext_planning_delete')]
+    public function deleteCourse(int $id)
+    {
+        $plan = $this->planningRepo->find($id);
+        $resas = $this->em->getRepository(Reservations::class)->findAll();
+
+        foreach ($resas as $resa) {
+            if ($resa->getPlanning() == $plan) {
+                $this->em->remove($resa);
+            }
+        }
+
+        $this->em->remove($plan);
+        $this->em->flush();
+
+        return $this->redirectToRoute('app_admin');
+    }
+
     function compareDates($date1, $date2)
     {
         // Convertissez les chaînes de date en objets DateTime

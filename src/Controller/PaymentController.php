@@ -35,7 +35,10 @@ class PaymentController extends AbstractController
         if ($user && $user->isPaymentSuccess()) {
 
             // Réinitialiser le statut de paiement à false après le traitement réussi
-            $user->setRoles(['ROLE_1SEANCE']);
+            if ($this->isGranted('ROLE_BASE')) {
+                $user->setRoles(['ROLE_1SEANCE']);
+            }
+            
             $user->setPaymentSuccess(false);
             $this->em->persist($user);
             $this->em->flush();

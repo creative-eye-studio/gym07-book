@@ -61,7 +61,7 @@ class AdminUsersController extends AbstractController
                 $resa->setUser($user);
                 $resa->setPlanning($planning);
                 $resa->setDateResa(new \DateTime());
-                $resa->setEtat(0);
+                $resa->setEtat(1);
                 $resa->setUnit(false);
     
                 $user->setLastRegister(new \DateTime());

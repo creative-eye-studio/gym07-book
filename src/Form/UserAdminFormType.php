@@ -76,6 +76,10 @@ class UserAdminFormType extends AbstractType
                 'label' => "Crédits",
                 'html5' => true
             ])
+            ->add('free_courses', NumberType::class, [
+                'label' => "Nombre de cours offerts",
+                'html5' => true
+            ])
             ->add('remake_pass', CheckboxType::class, [
                 'label' => "Modifier le mot de passe",
                 'required' => false,

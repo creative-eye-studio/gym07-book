@@ -66,7 +66,7 @@ class AdminUsersController extends AbstractController
     
                 $user->setLastRegister(new \DateTime());
     
-                $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN'];
+                $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN', 'ROLE_3MOIS', 'ROLE_6MOIS'];
                 if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
                     if ($user->getFreeCourses() == 0) {
                         $user->setCredits($user->getCredits() - 1);

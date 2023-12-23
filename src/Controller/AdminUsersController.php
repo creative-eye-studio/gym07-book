@@ -58,6 +58,7 @@ class AdminUsersController extends AbstractController
             if ($user->getFreeCourses() > 0 || $user->getCredits() > 0) {
                 // Création de la réservation
                 $planning = $em->getRepository(Planning::class)->find($data->getPlanning()->getId());
+                $plan = $planning->find($idPlan);
                 $resa->setUser($user);
                 $resa->setPlanning($planning);
                 $resa->setDateResa(new \DateTime());
@@ -67,7 +68,7 @@ class AdminUsersController extends AbstractController
                 $user->setLastRegister(new \DateTime());
 
                 if ($user->getFreeCourses() > 0) {
-                    $user->setFreeCourses($user->getFreeCourses() - 1);
+                    $user->setFreeCourses($user->getFreeCourses() - $data->getPlanning()->getCours()->getCredits());
                 }
     
                 $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN', 'ROLE_6MOIS', 'ROLE_3MOIS', 'ROLE_1MOIS', 'ROLE_ETU_SEN', 'ROLE_FONCTIONNAIRE'];

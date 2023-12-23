@@ -91,7 +91,7 @@ class AdminRegisterController extends AbstractController
                 // Ajoutez d'autres rôles avec leurs crédits correspondants au besoin
             ];
             
-            $user->setCredits($roleCreditsMap[$role] ?? 1);            
+            $user->setCredits($roleCreditsMap[$role] ?? 0);            
 
             $user->setFreeCourses(2);
             $user->setPaymentSuccess(false);

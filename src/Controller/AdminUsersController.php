@@ -58,7 +58,6 @@ class AdminUsersController extends AbstractController
             if ($user->getFreeCourses() > 0 || $user->getCredits() > 0) {
                 // Création de la réservation
                 $planning = $em->getRepository(Planning::class)->find($data->getPlanning()->getId());
-                $plan = $planning->find($idPlan);
                 $resa->setUser($user);
                 $resa->setPlanning($planning);
                 $resa->setDateResa(new \DateTime());

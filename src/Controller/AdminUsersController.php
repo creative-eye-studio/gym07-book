@@ -65,13 +65,15 @@ class AdminUsersController extends AbstractController
                 $resa->setUnit(false);
     
                 $user->setLastRegister(new \DateTime());
+
+                if ($user->getFreeCourses() > 0) {
+                    $user->setFreeCourses($user->getFreeCourses() - 1);
+                }
     
                 $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN', 'ROLE_6MOIS', 'ROLE_3MOIS', 'ROLE_1MOIS', 'ROLE_ETU_SEN', 'ROLE_FONCTIONNAIRE'];
                 if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
                     if ($user->getFreeCourses() == 0) {
                         $user->setCredits($user->getCredits() - 1);
-                    } else {
-                        $user->setFreeCourses($user->getFreeCourses() - 1);
                     }
                 }
                 

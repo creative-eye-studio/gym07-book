@@ -106,7 +106,7 @@ class ExtPlanningController extends AbstractController
             $user->setFreeCourses($user->getFreeCourses() - 1);
         }
 
-        $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_6MOIS', 'ROLE_3MOIS', 'ROLE_1MOIS', 'ROLE_ETU_SEN', 'ROLE_FONCTIONNAIRE'];
+        $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN', 'ROLE_6MOIS', 'ROLE_3MOIS', 'ROLE_1MOIS', 'ROLE_ETU_SEN', 'ROLE_FONCTIONNAIRE'];
         if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
             if ($user->getFreeCourses() == 0) {
                 $user->setCredits($user->getCredits() - $plan->getCours()->getCredits());

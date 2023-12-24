@@ -88,6 +88,13 @@ class AdminRegisterController extends AbstractController
             $roleCreditsMap = [
                 'ROLE_10SESSIONS' => 10,
                 'ROLE_DECOUVERTE' => 4,
+                'ROLE_6MOIS' => 1,
+                'ROLE_3MOIS' => 1,
+                'ROLE_1MOIS' => 1,
+                'ROLE_ETU_SEN' => 1,
+                'ROLE_FONCTIONNAIRE' => 1,
+                'ROLE_ANNUEL' => 1,
+                'ROLE_ADMIN' => 1,
                 // Ajoutez d'autres rôles avec leurs crédits correspondants au besoin
             ];
             

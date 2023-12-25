@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Services\InscriptionsService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -40,8 +42,17 @@ class ExtProfileController extends AbstractController
     }
 
     #[Route('/admin/profile/cancel/{id}', name: 'cancel_stud_insc')]
-    public function cancelReservation(int $id)
+    public function cancelReservation(int $id, EntityManagerInterface $em)
     {
+        $token = $this->tokenStorage->getToken();
+
+        if ($token) {
+            $user = $token->getUser();
+            $user->setCredits($user->getCredits() + 1);
+            $em->persist($user);
+            $em->flush();
+        }
+
         $this->inscService->cancelInscription($id);
         return $this->redirectToRoute('app_ext_profile');
     }

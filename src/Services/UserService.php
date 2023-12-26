@@ -47,7 +47,7 @@ class UserService extends AbstractController
             $newRole = explode(',', $form->get('roles')->getData());
             $user->setRoles($newRole);
             if ($form->get('remake_pass')->getData() != null) {
-                $newPwd = 'changePassword!!!';
+                $newPwd = 'ChangePassword!!!';
                 $password = $this->encoder->hashPassword($user, $newPwd);
                 $user->setPassword($password);
             }

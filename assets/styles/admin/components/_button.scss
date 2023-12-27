@@ -26,4 +26,7 @@ button{
     margin: auto;
     z-index: 9999;
     cursor: pointer;
+    @media screen and (min-width: 641px) {
+        display: none;
+    }
 }

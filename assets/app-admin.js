@@ -15,8 +15,6 @@ import Sortable from 'sortablejs';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import frLocale from '@fullcalendar/core/locales/fr';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 
 
 /* TABS
@@ -29,6 +27,14 @@ if (container != null) {
 }
 
 
+/* BTN NAV
+--------------------------------------------*/
+var btnNav = document.querySelector('.btn-nav');
+btnNav.addEventListener('click', function() {
+    document.querySelector(".navigation").classList.toggle("opened");
+})
+
+
 /* CALENDAR
 --------------------------------------------*/
 document.addEventListener('DOMContentLoaded', function() {
@@ -38,11 +44,20 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 
-                var calendar = new Calendar(calendarEl, {
-                    plugins: [dayGridPlugin],
-                    locale: frLocale,
-                    events: data,
-                });
+                if (window.innerWidth > 640) {
+                    var calendar = new Calendar(calendarEl, {
+                        plugins: [dayGridPlugin],
+                        locale: frLocale,
+                        events: data,
+                    });    
+                } else {
+                    var calendar = new Calendar(calendarEl, {
+                        plugins: [dayGridPlugin],
+                        initialView: 'dayGridDay',
+                        locale: frLocale,
+                        events: data,
+                    }); 
+                }
 
                 calendar.render();
             })
@@ -57,12 +72,21 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch('https://book.lasallecrossfit.fr/api/planning-admin')
             .then(response => response.json())
             .then(data => {
+                if (window.innerWidth > 640) {
+                    var calendar = new Calendar(calendarElAdmin, {
+                        plugins: [dayGridPlugin],
+                        locale: frLocale,
+                        events: data,
+                    });    
+                } else {
+                    var calendar = new Calendar(calendarElAdmin, {
+                        plugins: [dayGridPlugin],
+                        initialView: 'dayGridDay',
+                        locale: frLocale,
+                        events: data,
+                    }); 
+                }
                 
-                var calendar = new Calendar(calendarElAdmin, {
-                    plugins: [dayGridPlugin],
-                    locale: frLocale,
-                    events: data,
-                });
 
                 calendar.render();
             })

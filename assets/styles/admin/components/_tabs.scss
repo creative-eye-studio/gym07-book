@@ -1,6 +1,7 @@
 .tabs-btn{
     display: flex;
-    gap: 0 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
     list-style-type: none;
     padding: 0;
     .tab{

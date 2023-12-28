@@ -7,6 +7,13 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%,-50%);
+        @media screen and (max-width: 1024px) {
+            position: relative;
+            top: 0%;
+            left: 0%;
+            transform: inherit;
+            max-width: 80%;
+        }
     }
 
     footer{

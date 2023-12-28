@@ -7,6 +7,18 @@
         <h2>S'inscrire à notre Booking Online</h2>
         <p style="text-align:center;" >{{ notif }}</p>
 
-        {{ form(form) }}
+        {{ form_start(form) }}
+            <p>{{ notif }}</p>
+            <p>
+                Nous vous invitons à entrer vos informations dans le formulaire pour vous inscrire.<br />
+                Une fois cela fait, vous recevrezz un mail de confirmation pour valider votre inscription. pensez à regarder vos smaps au cas où.
+            </p>
+            {{ form_row(form.lastname) }}
+            {{ form_row(form.firstname) }}
+            {{ form_row(form.telephone) }}
+            {{ form_row(form.email) }}
+            {{ form_row(form.password) }}
+            {{ form_row(form.submit) }}
+        {{ form_end(form) }}
     </section>
 {% endblock %}

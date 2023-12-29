@@ -22,7 +22,7 @@ class UserService extends AbstractController
     }
 
     function getUsersCMS(){
-        $users = $this->userRepo->findAll();
+        $users = $this->userRepo->findBy([], ['lastname' => "ASC"]);
         return $users;
     }
 

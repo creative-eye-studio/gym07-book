@@ -40,7 +40,7 @@ btnNav.addEventListener('click', function() {
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
     if (calendarEl) {
-        fetch('https://book.lasallecrossfit.fr/api/planning')
+        fetch('/api/planning')
             .then(response => response.json())
             .then(data => {
                 
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var calendarElAdmin = document.getElementById('calendar-admin');
     if (calendarElAdmin) {
-        fetch('https://book.lasallecrossfit.fr/api/planning-admin')
+        fetch('/api/planning-admin')
             .then(response => response.json())
             .then(data => {
                 if (window.innerWidth > 640) {

@@ -35,7 +35,7 @@ class ApiController extends AbstractController
         $array = array_map(function ($course) {
             return [
                 'id' => $course->getId(),
-                'title' => $course->getCours()->getNomCours() . " | " . $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i"),
+                'title' => $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i") . " - " . $course->getCours()->getNomCours(),
                 'start' => $course->getDateTimeStart()->format("Y-m-d"),
                 'url' => '/admin/plan/' . $course->getId()
             ];
@@ -52,7 +52,7 @@ class ApiController extends AbstractController
         $array = array_map(function ($course) {
             return [
                 'id' => $course->getId(),
-                'title' => $course->getReservations()->count() . "/" . $course->getPlaces() . " - " . $course->getCours()->getNomCours() . " | " . $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i"),
+                'title' => $course->getReservations()->count() . "/" . $course->getPlaces() . " | " . $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i") . " | " . $course->getCours()->getNomCours(),
                 'start' => $course->getDateTimeStart()->format("Y-m-d"),
                 'url' => '/admin/participants/' . $course->getId()
             ];

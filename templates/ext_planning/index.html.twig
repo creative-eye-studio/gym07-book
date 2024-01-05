@@ -39,6 +39,9 @@
                     {% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <p>
+                            <a href="{{ path('app_ext_planning_update', {id: id}) }}" class="btn-link">Modifier un cours</a>
+                        </p>
+                        <p>
                             <a href="{{ path('app_ext_planning_delete', {id: id}) }}" class="btn-link">Supprimer un cours</a>
                         </p>
                     {% endif %}

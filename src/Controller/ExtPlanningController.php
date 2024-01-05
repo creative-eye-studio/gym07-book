@@ -80,6 +80,27 @@ class ExtPlanningController extends AbstractController
         ]);
     }
 
+    #[Route('/admin/planning/update/{id}', name: 'app_ext_planning_update')]
+    public function updatePlanning(Request $request, int $id): Response
+    {
+        $planning = $this->planningRepo->find($id);
+
+        $form = $this->createForm(ExtPlanningType::class, $planning);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($planning);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_ext_planning', ['id' => $planning->getId()]);
+        }
+
+        return $this->render('ext_planning/form-manager.html.twig', [
+            'titre' => "Modifier un horaire",
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/admin/planning/register/{idPlan}', name: 'app_ext_planning_register')]
     public function registPlanning(int $idPlan): Response
     {

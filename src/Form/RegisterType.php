@@ -71,7 +71,7 @@ class RegisterType extends AbstractType
                     'Administrateur' => 'ROLE_ADMIN',
                     'Forfait annuel' => 'ROLE_ANNUEL',
                     'Forfait 10 sessions' => 'ROLE_10SESSIONS',
-                    'Forfait Découverte' => 'ROLE_DECOUVERTE',
+                    'Forfait 1 séance / semaine' => 'ROLE_DECOUVERTE',
                     'Forfait 6 mois' => 'ROLE_6MOIS',
                     'Forfait 3 mois' => 'ROLE_3MOIS',
                     'Forfait 1 mois' => 'ROLE_1MOIS',

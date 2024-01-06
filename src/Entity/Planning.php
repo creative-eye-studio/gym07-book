@@ -121,6 +121,6 @@ class Planning
 
     public function getFormattedCreatedAt(): string
     {
-        return $this->dateTimeStart->format('d/m/Y H:i:s');
+        return $this->dateTimeStart->format('d/m/Y H:i:s') . ' - ' . $this->cours->getNomCours();
     }
 }

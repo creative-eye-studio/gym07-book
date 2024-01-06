@@ -23,11 +23,11 @@ class RegisterCourseType extends AbstractType
                 'class' => Planning::class,
                 'query_builder' => function (PlanningRepository $er) {
                     return $er->createQueryBuilder('c')
-                        ->orderBy('c.dateTimeStart', 'ASC'); // Supposons que 'nom' est le champ par lequel vous souhaitez trier
+                        ->orderBy('c.dateTimeStart', 'DESC'); // Supposons que 'nom' est le champ par lequel vous souhaitez trier
                 },
                 'choice_label' => 'formattedCreatedAt',
                 'choice_value' => 'id',
-                'group_by' => 'cours.nom_cours',
+                // 'group_by' => 'cours.nom_cours',
                 'attr' => [
                     'class' => 'mb-3'
                 ]

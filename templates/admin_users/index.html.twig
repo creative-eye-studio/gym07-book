@@ -6,6 +6,13 @@
     <section class="block">
         <a class="btn-link float-right" href="{{ path('app_admin_register') }}">Ajouter un adhérent / admin</a>
         <h2>Liste des utilisateurs</h2>
+
+        {{ form_start(form) }}
+        {{ form_row(form.user_search) }}
+        <ul id="suggestion-list"></ul>
+        {# {{ form_row(form.submit) }} #}
+        {{ form_end(form) }}
+
         <div class="tab-container mt-5">
             <div class="tabs-btn tabs" style="flex-wrap: wrap; gap: 1rem;">
             {% set tabData = [

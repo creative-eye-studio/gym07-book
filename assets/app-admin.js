@@ -35,6 +35,64 @@ btnNav.addEventListener('click', function() {
 })
 
 
+/* AUTOCOMPLETE
+--------------------------------------------*/
+document.addEventListener('DOMContentLoaded', function() {
+
+    var autocompleteInput = document.querySelector(".user-search");
+    var suggestionList = document.getElementById('suggestion-list');
+
+    if (autocompleteInput != undefined) {
+        autocompleteInput.addEventListener('input', function() {
+            var term = autocompleteInput.value;
+            if (term.length >= 2) {
+                // Modifier l'URL pour inclure le terme en tant que paramètre de requête
+                var apiUrl = "/api/users/" + encodeURIComponent(term);
+
+                fetch(apiUrl)
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (data) {
+                        showSuggestions(data);
+                    })
+                    .catch(function (error) {
+                        console.error("Erreur de récupération des suggestions :", error);
+                    });
+            } else {
+                suggestionList.innerHTML = '';
+            }
+
+            function showSuggestions(suggestions) {
+                // Effacer la liste précédente des suggestions
+                suggestionList.innerHTML = '';
+            
+                // Vérifier si suggestions est un objet
+                if (typeof suggestions === 'object' && suggestions !== null) {
+                    var responses = Object.values(suggestions);
+
+                    // Vérifier si suggestions est un tableau
+                    if (Array.isArray(responses)) {
+                        responses.forEach(response => {
+                            var listItem = document.createElement('li');
+                            var link = document.createElement('a');
+                            link.textContent = response.name;
+                            link.href = "/admin/users/regist-course/" + response.id; 
+                            listItem.appendChild(link);
+                            suggestionList.appendChild(listItem);
+                        });
+                    } else {
+                        console.error("La variable 'suggestions' n'est pas un tableau.");
+                    }
+                } else {
+                    console.error("La réponse JSON ne contient pas une suggestion valide.");
+                }
+            }                     
+        })
+    }
+})
+
+
 /* CALENDAR
 --------------------------------------------*/
 document.addEventListener('DOMContentLoaded', function() {
@@ -99,8 +157,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
 /* SORTABLE JS
 --------------------------------------------*/
 const dragDropList = document.querySelector('#drag-drop-list');
@@ -159,9 +215,9 @@ function changeOrderLinks() {
     });
 }
 
+
 /* SECTION - NAVIGATION
 --------------------------------------------*/
-
 // Sélecteur de menu
 const navSelect = document.querySelector('.nav-select');
 if (navSelect) {

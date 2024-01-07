@@ -6,6 +6,7 @@ use App\Entity\Planning;
 use App\Entity\Reservations;
 use App\Entity\User;
 use App\Form\RegisterCourseType;
+use App\Form\UserSearchType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,10 +23,18 @@ class AdminUsersController extends AbstractController
     }
 
     #[Route('/admin/users', name: 'admin_users')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        $form = $this->createForm(UserSearchType::class);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            
+        }
+
         return $this->render('admin_users/index.html.twig', [
             'users' => $this->userService->getUsersCMS(),
+            'form' => $form->createView(),
         ]);
     }
 

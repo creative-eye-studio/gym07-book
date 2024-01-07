@@ -11,6 +11,9 @@ input{
     &[type=time] {
         padding: .5rem;
     }
+    &.user-search {
+        margin-bottom: 1rem;
+    }
 }
 
 select{
@@ -44,4 +47,24 @@ textarea{
     height: 100px;
     width: 100%;
     padding: .5rem;
+}
+
+#suggestion-list {
+    list-style-type: none;
+    padding: 0;
+    box-sizing: border-box;
+    &:not(:empty) {
+        border: 1px solid rgba($color: #000000, $alpha: .25);
+    }
+    li{
+        a {
+            color: black;
+            text-decoration: none;
+            padding: 2px 10px;
+            display: block;
+            &:hover {
+                background-color: rgba($color: #000000, $alpha: .2);
+            }
+        }
+    }
 }

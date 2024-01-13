@@ -30,15 +30,9 @@ class InscriptionsService
         $token = $this->tokenStorage->getToken();
         $dateActuelle = new DateTime();
 
-        // Afficher les valeurs pour le débogage
-        dump("Heure du cours : " . $plan->format('Y-m-d H:i:s'));
-        dump("Heure actuelle : " . $dateActuelle->format('Y-m-d H:i:s') );
-
         // Vérifier si la différence est de moins de 2 heures
         $diff = $dateActuelle->diff($plan);
         $diffMinutes = ($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i;
-
-        dump("Différence en minutes : " . $diffMinutes);
 
         if ($plan > $dateActuelle && $diffMinutes > 120) {
             if ($token) {
@@ -46,7 +40,6 @@ class InscriptionsService
                 $user->setCredits($user->getCredits() + 1);
                 $this->em->persist($user);
                 $this->em->flush();
-                echo "Action exécutée : Crédits mis à jour.";
             }
         } else {
             echo "Action non exécutée : Différence de 2 heures ou moins ou utilisateur non authentifié.";

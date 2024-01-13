@@ -19,12 +19,14 @@ class ExtPlanningController extends AbstractController
     private $tokenStorage;
     private $em;
     private $planningRepo;
+    private $resaRepo;
 
     function __construct(EntityManagerInterface $em, TokenStorageInterface $tokenStorage)
     {
         $this->tokenStorage = $tokenStorage;
         $this->em = $em;
         $this->planningRepo = $this->em->getRepository(Planning::class);
+        $this->resaRepo = $this->em->getRepository(Reservations::class);
     }
 
     #[Route('/admin/plan/{id}', name: 'app_ext_planning')]
@@ -40,6 +42,16 @@ class ExtPlanningController extends AbstractController
         }
 
         $plan = $this->planningRepo->find($id);
+
+        $resaUser = $this->resaRepo->findOneBy([
+            'planning' => $plan,
+            'user' => $user
+        ]);
+        if ($resaUser) {
+            $dontInsc = true;
+        } else {
+            $dontInsc = false;
+        }
 
         $diffDays = $this->compareDates(date("Y-m-d"), $lastRegister) ?? null;
 
@@ -57,7 +69,8 @@ class ExtPlanningController extends AbstractController
             'lastRegister' => $lastRegister,
             'role' => $roles[0],
             "creditsUser" => $creditsUser,
-            'freeCourses' => $freeCourses
+            'freeCourses' => $freeCourses,
+            'dontInsc' => $dontInsc
         ]);
     }
 

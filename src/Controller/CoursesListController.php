@@ -6,20 +6,28 @@ use App\Entity\Planning;
 use App\Entity\Reservations;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class CoursesListController extends AbstractController
 {
     private $em;
     private $hours;
+    private $mailer;
+    private $tokenStorage;
 
-    function __construct(EntityManagerInterface $em)
+    function __construct(EntityManagerInterface $em, MailerInterface $mailer, TokenStorageInterface $tokenStorage)
     {
         $this->em = $em;
         $this->hours = $this->em->getRepository(Planning::class);
+        $this->mailer = $mailer;
+        $this->tokenStorage = $tokenStorage;
     }
 
 
@@ -61,15 +69,32 @@ class CoursesListController extends AbstractController
     {
         $resa = $this->em->getRepository(Reservations::class)->find($id);
 
+        $variables = [
+            'courseName' => $resa->getPlanning()->getCours()->getNomCours(),
+            'courseDate' => $resa->getPlanning()->getDateTimeStart()->format('d/m/Y à hh:mm'),
+        ];
+
         switch ($action) {
             case 'accept':
                 $etat = 1;
+                $this->sendMail(
+                    "Validation de votre inscription à un cours", 
+                    "emails/valid-course.html.twig", 
+                    $variables);
                 break;
             case 'refuse':
                 $etat = 2;
+                $this->sendMail(
+                    "Annulation de votre inscription à un cours", 
+                    "emails/refused-course.html.twig",
+                    $variables);
                 break;
             case 'waiting':
                 $etat = 0;
+                $this->sendMail(
+                    "Mise en attente de votre inscription à un cours", 
+                    "emails/waiting-course.html.twig",
+                    $variables);
                 break;
             default:
                 throw $this->createNotFoundException('Action non valide.');
@@ -81,5 +106,21 @@ class CoursesListController extends AbstractController
 
         $referer = $request->headers->get('referer');
         return $this->redirect($referer);
+    }
+
+    private function sendMail(String $subject, String $template, array $variables) {
+        $token = $this->tokenStorage->getToken();
+        if ($token) {
+            $user = $token->getUser();
+        }
+
+        $email = (new TemplatedEmail())
+            ->from('no-reply@lasallecrossfit.fr')
+            ->to($user->getEmail())
+            ->subject($subject)
+            ->htmlTemplate($template)
+            ->context($variables);
+        
+        $this->mailer->send($email);
     }
 }

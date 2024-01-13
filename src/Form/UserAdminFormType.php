@@ -80,6 +80,10 @@ class UserAdminFormType extends AbstractType
                 'label' => "Nombre de cours offerts",
                 'html5' => true
             ])
+            ->add('is_verified', CheckboxType::class, [
+                'label' => "Valider l'utilisateur",
+                'required' => false
+            ])
             ->add('remake_pass', CheckboxType::class, [
                 'label' => "Modifier le mot de passe",
                 'required' => false,

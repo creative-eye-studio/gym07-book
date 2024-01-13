@@ -23,6 +23,9 @@
             <p>{{ form_row(form.credits) }}</p>
             <p>{{ form_row(form.free_courses) }}</p>
             <p class="d-flex">
+                {{ form_widget(form.is_verified) }} {{ form_label(form.is_verified) }}
+            </p>
+            <p class="d-flex">
                 {{ form_widget(form.remake_pass) }} {{ form_label(form.remake_pass) }}
             </p>
             <p>{{ form_row(form.submit) }}</p>

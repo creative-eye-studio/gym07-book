@@ -7,10 +7,12 @@ use App\Entity\Reservations;
 use App\Form\ExtPlanningType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -20,11 +22,13 @@ class ExtPlanningController extends AbstractController
     private $em;
     private $planningRepo;
     private $resaRepo;
+    private $mailer;
 
-    function __construct(EntityManagerInterface $em, TokenStorageInterface $tokenStorage)
+    function __construct(EntityManagerInterface $em, TokenStorageInterface $tokenStorage, MailerInterface $mailer)
     {
         $this->tokenStorage = $tokenStorage;
         $this->em = $em;
+        $this->mailer = $mailer;
         $this->planningRepo = $this->em->getRepository(Planning::class);
         $this->resaRepo = $this->em->getRepository(Reservations::class);
     }
@@ -147,6 +151,23 @@ class ExtPlanningController extends AbstractController
             }
         }
 
+        $variables = [
+            'courseName' => $resa->getPlanning()->getCours()->getNomCours(),
+            'courseDate' => $resa->getPlanning()->getDateTimeStart()->format('d/m/Y à H:M'),
+        ];
+
+        if ($nbResa >= $places) {
+            $this->sendMail(
+                "Mise en attente de votre inscription à un cours", 
+                "emails/waiting-course.html.twig",
+                $variables);
+        } else {
+            $this->sendMail(
+                "Validation de votre inscription à un cours", 
+                "emails/valid-course.html.twig", 
+                $variables);
+        }
+
         $this->em->persist($resa);
         $this->em->persist($user);
         $this->em->flush();
@@ -184,5 +205,21 @@ class ExtPlanningController extends AbstractController
 
         // Comparez le nombre de jours de différence
         return $difference->days > 7;
+    }
+
+    private function sendMail(String $subject, String $template, array $variables) {
+        $token = $this->tokenStorage->getToken();
+        if ($token) {
+            $user = $token->getUser();
+        }
+
+        $email = (new TemplatedEmail())
+            ->from('no-reply@lasallecrossfit.fr')
+            ->to($user->getEmail())
+            ->subject($subject)
+            ->htmlTemplate($template)
+            ->context($variables);
+        
+        $this->mailer->send($email);
     }
 }

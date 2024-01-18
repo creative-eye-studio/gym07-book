@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Entity\Reservations;
+use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -49,14 +50,15 @@ class InscriptionsService
         }
 
         // Envoie d'un email au personnes en attente
-        $resas = $this->em->getRepository(Reservations::class)->findBy([
-            'id' => $id,
+        $users = $this->em->getRepository(Reservations::class)->findBy([
+            'planning' => $plan,
+            'etat' => 0
         ]);
 
-        foreach ($resas as $resa) {
+        foreach ($users as $user) {
             $email = (new TemplatedEmail())
                 ->from('no-reply@lasallecrossfit.fr')
-                ->to($resa->getUser()->getEmail())
+                ->to($user->getUser()->getEmail())
                 ->subject("Une place s'est libéré")
                 ->htmlTemplate('emails/open-place.html.twig')
                 ->context([
@@ -71,8 +73,5 @@ class InscriptionsService
 
         $this->em->remove($inscription);
         $this->em->flush();
-    }
-
-    private function sendMail(String $subject, String $template, array $variables) {
     }
 }

@@ -6,7 +6,12 @@ use App\Entity\Reservations;
 use App\Entity\User;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use SendinBlue\Client\Api\TransactionalSMSApi;
+use SendinBlue\Client\ApiException;
+use SendinBlue\Client\Configuration;
+use SendinBlue\Client\Model\SendSms;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
@@ -56,6 +61,7 @@ class InscriptionsService
         ]);
 
         foreach ($users as $user) {
+            // Email
             $email = (new TemplatedEmail())
                 ->from('no-reply@lasallecrossfit.fr')
                 ->to($user->getUser()->getEmail())
@@ -67,9 +73,27 @@ class InscriptionsService
                 ]);
             
             $this->mailer->send($email);
+
+            // Téléphone
+            $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', 'xsmtpsib-e78035eb424366da853da11c05f643c4b41b5ede50302e0b476058f938a19b50-46LP7FvGbMpx3T5r');
+
+            $apiInstance = new TransactionalSMSApi(
+                new \GuzzleHttp\Client(),
+                $config
+            );
+
+            $sms = new SendSms([
+                'to' => [$user->getUser()->getTelephone()],
+                'from' => "La salle Crossfit",
+                'text' => "Une place s'est libérée au cours " . $plan->getCours()->getNomCours() . " à la date du " . $dateStart->format('d/m/Y à h:m') . ".",
+            ]);
+
+            try {
+                $result = $apiInstance->sendTransacSms($sms);
+            } catch (ApiException $th) {
+                return new Response('Erreur lors de l\'envoi du SMS : ' . $th->getMessage());
+            }
         }
-
-
 
         $this->em->remove($inscription);
         $this->em->flush();

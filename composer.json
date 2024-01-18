@@ -63,7 +63,8 @@
         "symfonycasts/reset-password-bundle": "^1.18.0",
         "symfonycasts/verify-email-bundle": "^1.14.0",
         "twig/extra-bundle": "^3.7.1",
-        "twig/twig": "^3.7.1"
+        "twig/twig": "^3.7.1",
+        "twilio/sdk": "^7.13"
     },
     "config": {
         "allow-plugins": {

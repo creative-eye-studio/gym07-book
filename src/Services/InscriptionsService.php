@@ -14,7 +14,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-
+use Twilio\Rest\Client;
 
 class InscriptionsService
 {
@@ -75,26 +75,31 @@ class InscriptionsService
             $this->mailer->send($email);
 
             // Téléphone
-            $config = Configuration::getDefaultConfiguration()->setApiKey('api-key', 'xsmtpsib-e78035eb424366da853da11c05f643c4b41b5ede50302e0b476058f938a19b50-46LP7FvGbMpx3T5r');
 
-            $apiInstance = new TransactionalSMSApi(
-                new \GuzzleHttp\Client(),
-                $config
-            );
+            // Récupérer le numéro de téléphone
+            $telephone = $user->getUser()->getTelephone();
 
-            $sms = new SendSms([
-                'to' => [$user->getUser()->getTelephone()],
-                'from' => "La salle Crossfit",
-                'text' => "Une place s'est libérée au cours " . $plan->getCours()->getNomCours() . " à la date du " . $dateStart->format('d/m/Y à h:m') . ".",
-            ]);
-
-            try {
-                $result = $apiInstance->sendTransacSms($sms);
-            } catch (ApiException $th) {
-                return new Response('Erreur lors de l\'envoi du SMS : ' . $th->getMessage());
+            // Vérifier si le numéro commence par 0
+            if (substr($telephone, 0, 1) === '0') {
+                // Ajouter le préfixe international pour la France (+33)
+                $telephone = '+33' . substr($telephone, 1);
             }
-        }
 
+            $accountId = '';
+            $authToken = '';
+            $twilio = new Client($accountId, $authToken);
+
+            $twilioNumber = '+15806663831';
+            $recipient = $telephone;
+            $messageBody = "Une place s'est libérée au cours " . $plan->getCours()->getNomCours() . " à la date du " . $dateStart->format('d/m/Y à h:m') . ".";
+
+            $message = $twilio->messages
+                ->create($recipient, [
+                    'from' => $twilioNumber,
+                    'body' => $messageBody
+                ]);
+        }
+            
         $this->em->remove($inscription);
         $this->em->flush();
     }

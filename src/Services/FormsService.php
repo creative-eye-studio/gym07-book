@@ -37,7 +37,7 @@ class FormsService
 
     public function validateRegister(string $userMail, string $userName, string $token){
         $this->send(
-            'no-reply@creative-eye.fr',
+            'no-reply@lasallecrossfit.fr',
             $userMail,
             "Création de votre compte sur le site",
             'register',
@@ -50,7 +50,7 @@ class FormsService
 
     public function confirmRegister(string $userMail, string $userName, string $token){
         $this->send(
-            'no-reply@creative-eye.fr',
+            'no-reply@lasallecrossfit.fr',
             $userMail,
             "Création de votre compte sur le site",
             'confirm',

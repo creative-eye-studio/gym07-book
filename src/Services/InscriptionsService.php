@@ -51,7 +51,6 @@ class InscriptionsService
         // Envoie d'un email au personnes en attente
         $resas = $this->em->getRepository(Reservations::class)->findBy([
             'id' => $id,
-            'etat' => '1'
         ]);
 
         foreach ($resas as $resa) {

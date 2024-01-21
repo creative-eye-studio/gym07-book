@@ -77,27 +77,27 @@ class InscriptionsService
             // Téléphone
 
             // Récupérer le numéro de téléphone
-            $telephone = $user->getUser()->getTelephone();
+            // $telephone = $user->getUser()->getTelephone();
 
-            // Vérifier si le numéro commence par 0
-            if (substr($telephone, 0, 1) === '0') {
-                // Ajouter le préfixe international pour la France (+33)
-                $telephone = '+33' . substr($telephone, 1);
-            }
+            // // Vérifier si le numéro commence par 0
+            // if (substr($telephone, 0, 1) === '0') {
+            //     // Ajouter le préfixe international pour la France (+33)
+            //     $telephone = '+33' . substr($telephone, 1);
+            // }
 
-            $accountId = '';
-            $authToken = '';
-            $twilio = new Client($accountId, $authToken);
+            // $accountId = '';
+            // $authToken = '';
+            // $twilio = new Client($accountId, $authToken);
 
-            $twilioNumber = '+15806663831';
-            $recipient = $telephone;
-            $messageBody = "Une place s'est libérée au cours " . $plan->getCours()->getNomCours() . " à la date du " . $dateStart->format('d/m/Y à h:m') . ".";
+            // $twilioNumber = '+15806663831';
+            // $recipient = $telephone;
+            // $messageBody = "Une place s'est libérée au cours " . $plan->getCours()->getNomCours() . " à la date du " . $dateStart->format('d/m/Y à h:m') . ".";
 
-            $message = $twilio->messages
-                ->create($recipient, [
-                    'from' => $twilioNumber,
-                    'body' => $messageBody
-                ]);
+            // $message = $twilio->messages
+            //     ->create($recipient, [
+            //         'from' => $twilioNumber,
+            //         'body' => $messageBody
+            //     ]);
         }
             
         $this->em->remove($inscription);

@@ -30,6 +30,8 @@
                         
                         {% if dontInsc %}
                             <p>Vous êtes déjà inscrit à ce cours.</p>
+                        {% elseif endAdh %}
+                            <p>Votre abonnement a pris fin. Nous vous invitons à prendre contact avec nous pour mettre à jour votre abonnement</p>
                         {% else %}
                             {% if freeCourses <= 0 and creditsUser <= 0 %}
                                 <p>Si vous souhaitez acheter un abonnement ou une carte, merci de passer par l'accueil sur les horaires d'ouvertures, nous débloquerons vos crédits à ce moment là.</p>

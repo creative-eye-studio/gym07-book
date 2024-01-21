@@ -51,12 +51,15 @@ class ExtPlanningController extends AbstractController
             'planning' => $plan,
             'user' => $user
         ]);
-        if ($resaUser) {
-            $dontInsc = true;
-        } else {
-            $dontInsc = false;
-        }
 
+        $dontInsc = $resaUser ? true : false;
+
+        // Périodes d'inscription
+        $dateToday = new \DateTime();
+        $limitTimeAdh = $user->getDateFinAdh();
+        $endedAdh = $dateToday > $limitTimeAdh;
+        $endAdh = $endedAdh ? true : false;
+        
         $diffDays = $this->compareDates(date("Y-m-d"), $lastRegister) ?? null;
 
         return $this->render('ext_planning/index.html.twig', [
@@ -74,7 +77,8 @@ class ExtPlanningController extends AbstractController
             'role' => $roles[0],
             "creditsUser" => $creditsUser,
             'freeCourses' => $freeCourses,
-            'dontInsc' => $dontInsc
+            'dontInsc' => $dontInsc,
+            'endAdh' => $endAdh
         ]);
     }
 

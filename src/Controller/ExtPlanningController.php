@@ -130,51 +130,57 @@ class ExtPlanningController extends AbstractController
         $user = $token->getUser();
         $plan = $this->planningRepo->find($idPlan);
         $places = $plan->getPlaces();
-        $credits = $plan->getCours()->getCredits();
 
         $nbResa = $plan->getReservations()->count();
 
         // Création de la réservation
-        $resa = new Reservations();
-        $resa->setUser($user);
-        $resa->setPlanning($plan);
-        $resa->setDateResa(new \DateTime());
-        $resa->setEtat($nbResa >= $places ? 0 : 1);
-        $resa->setUnit(false);
+        $verifResa = $this->em->getRepository(Reservations::class)->findOneBy([
+            'user' => $user,
+            'planning' => $plan
+        ]);
 
-        $user->setLastRegister(new \DateTime());
+        if (!$verifResa) {
+            $resa = new Reservations();
+            $resa->setUser($user);
+            $resa->setPlanning($plan);
+            $resa->setDateResa(new \DateTime());
+            $resa->setEtat($nbResa >= $places ? 0 : 1);
+            $resa->setUnit(false);
 
-        if ($user->getFreeCourses() > 0) {
-            $user->setFreeCourses($user->getFreeCourses() - 1);
-        }
+            $user->setLastRegister(new \DateTime());
 
-        $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN', 'ROLE_6MOIS', 'ROLE_3MOIS', 'ROLE_1MOIS', 'ROLE_ETU_SEN', 'ROLE_FONCTIONNAIRE'];
-        if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
-            if ($user->getFreeCourses() == 0 && $user->getCredits() > 0) {
-                $user->setCredits($user->getCredits() - $plan->getCours()->getCredits());
+            if ($user->getFreeCourses() > 0) {
+                $user->setFreeCourses($user->getFreeCourses() - 1);
             }
+
+            $rolesToExclude = ['ROLE_ANNUEL', 'ROLE_ADMIN', 'ROLE_6MOIS', 'ROLE_3MOIS', 'ROLE_1MOIS', 'ROLE_ETU_SEN', 'ROLE_FONCTIONNAIRE'];
+            if (count(array_intersect($rolesToExclude, $user->getRoles())) === 0) {
+                if ($user->getFreeCourses() == 0 && $user->getCredits() > 0) {
+                    $user->setCredits($user->getCredits() - $plan->getCours()->getCredits());
+                }
+            }
+
+            $variables = [
+                'courseName' => $resa->getPlanning()->getCours()->getNomCours(),
+                'courseDate' => $resa->getPlanning()->getDateTimeStart()->format('d/m/Y à H:M'),
+            ];
+
+            if ($nbResa >= $places) {
+                $this->sendMail(
+                    "Mise en attente de votre inscription à un cours", 
+                    "emails/waiting-course.html.twig",
+                    $variables);
+            } else {
+                $this->sendMail(
+                    "Validation de votre inscription à un cours", 
+                    "emails/valid-course.html.twig", 
+                    $variables);
+            }
+
+            $this->em->persist($resa);
+            $this->em->persist($user);
+            $this->em->flush();
         }
-
-        $variables = [
-            'courseName' => $resa->getPlanning()->getCours()->getNomCours(),
-            'courseDate' => $resa->getPlanning()->getDateTimeStart()->format('d/m/Y à H:M'),
-        ];
-
-        if ($nbResa >= $places) {
-            $this->sendMail(
-                "Mise en attente de votre inscription à un cours", 
-                "emails/waiting-course.html.twig",
-                $variables);
-        } else {
-            $this->sendMail(
-                "Validation de votre inscription à un cours", 
-                "emails/valid-course.html.twig", 
-                $variables);
-        }
-
-        $this->em->persist($resa);
-        $this->em->persist($user);
-        $this->em->flush();
 
 
         return new RedirectResponse($this->generateUrl('app_ext_profile'));

@@ -32,11 +32,11 @@
                     {{ item.planning.cours.nomcours }}
                     <span>
                         {% if item.etat == 1 %}
-                        (Validé)
+                            (Validé)
                         {% elseif item.etat == 2 %}
-                        (Refusé)
+                            (Refusé)
                         {% else %}
-                        (En attente)
+                            (En attente)
                         {% endif %}
                     </span><br />
                     {{ item.planning.datetimestart | date('d/m/Y H:i') }} - {{ item.planning.datetimeend | date('d/m/Y H:i') }}

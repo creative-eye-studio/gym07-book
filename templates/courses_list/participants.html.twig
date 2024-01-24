@@ -20,7 +20,9 @@
                 </ul>
                 <div class="tab-panes">
                     <div class="tab-pane active">
-                    {% for item in list %}
+                    {% set sortedList = list | sort((a, b) => a.user.firstname <=> b.user.firstname) %}
+
+                    {% for item in sortedList %}
                         {% if item.etat == 1 %}
                         <div class="line py-2">
                             <span class="title">
@@ -35,7 +37,9 @@
                     {% endfor %}
                     </div>
                     <div class="tab-pane">
-                    {% for item in list %}
+                    {% set sortedList = list | sort((a, b) => a.user.firstname <=> b.user.firstname) %}
+
+                    {% for item in sortedList %}
                         {% if item.etat == 0 %}
                         <div class="line py-2">
                             <span class="title">
@@ -50,7 +54,9 @@
                     {% endfor %}
                     </div>
                     <div class="tab-pane">
-                    {% for item in list %}
+                    {% set sortedList = list | sort((a, b) => a.user.firstname <=> b.user.firstname) %}
+
+                    {% for item in sortedList %}
                         {% if item.etat == 2 %}
                         <div class="line py-2">
                             <span class="title">

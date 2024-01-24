@@ -26,40 +26,32 @@
                     
                 </ul>
 
-                    {% if (role == "ROLE_DECOUVERTE" and (diffDays or lastRegister == "")) or (role != "ROLE_DECOUVERTE") %}
-                        
-                        {% if dontInsc %}
-                            <p>Vous êtes déjà inscrit à ce cours.</p>
-                        {# {% elseif endAdh %}
-                            <p>Votre abonnement a pris fin. Nous vous invitons à prendre contact avec nous pour mettre à jour votre abonnement</p> #}
-                        {% else %}
-                            {% if freeCourses <= 0 and creditsUser <= 0 %}
-                                <p>Si vous souhaitez acheter un abonnement ou une carte, merci de passer par l'accueil sur les horaires d'ouvertures, nous débloquerons vos crédits à ce moment là.</p>
-                                <p>
-                                    <a href="{{ path('process_payment', {idPlan: id}) }}" class="btn-link">Acheter un cours à l'unité</a>
-                                </p>
-                                {% else %}
-                                <p>
-                                    <a href="{{ path('app_ext_planning_register', {idPlan: id}) }}" class="btn-link">Réserver un cours</a>
-                                </p>
-                            {% endif %}
-                        {% endif %}
-
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <p>
-                                <a href="{{ path('app_ext_planning_update', {id: id}) }}" class="btn-link">Modifier un cours</a>
-                            </p>
-                            <p>
-                                <a href="{{ path('app_ext_planning_delete', {id: id}) }}" class="btn-link">Supprimer un cours</a>
-                            </p>
-                        {% endif %}
-
+                {% if dontInsc %}
+                    <p>Vous êtes déjà inscrit à ce cours.</p>
+                {# {% elseif endAdh %}
+                    <p>Votre abonnement a pris fin. Nous vous invitons à prendre contact avec nous pour mettre à jour votre abonnement</p> #}
+                {% else %}
+                    {% if freeCourses <= 0 and creditsUser <= 0 %}
+                        <p>Si vous souhaitez acheter un abonnement ou une carte, merci de passer par l'accueil sur les horaires d'ouvertures, nous débloquerons vos crédits à ce moment là.</p>
+                        <p>
+                            <a href="{{ path('process_payment', {idPlan: id}) }}" class="btn-link">Acheter un cours à l'unité</a>
+                        </p>
                     {% else %}
-                        <p>Vous ne pouvez plus réserver de cours pour cette semaine.</p>
+                        <p>
+                            <a href="{{ path('app_ext_planning_register', {idPlan: id}) }}" class="btn-link">Réserver un cours</a>
+                        </p>
                     {% endif %}
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <p>
+                        <a href="{{ path('app_ext_planning_update', {id: id}) }}" class="btn-link">Modifier un cours</a>
+                    </p>
+                    <p>
+                        <a href="{{ path('app_ext_planning_delete', {id: id}) }}" class="btn-link">Supprimer un cours</a>
+                    </p>
+                {% endif %}
                 
-
-
             </div>
         </div>
     </div>

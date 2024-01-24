@@ -60,6 +60,8 @@ class AdminRegisterController extends AbstractController
             $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
             $formService->confirmRegister($user->getEmail(), $user->getFirstName(), $token);
             $notif = "Le compte a bien été crée";
+
+            return $this->redirectToRoute('app_admin_confirm_register');
         }
 
         return $this->render('admin_register/new-register.html.twig', [
@@ -148,5 +150,11 @@ class AdminRegisterController extends AbstractController
         // Ici un problème se pose dans le token
         $this->addFlash('danger', 'Le token est invalide ou a expiré');
         return $this->redirectToRoute('app_login');
+    }
+
+    #[Route('/confirm-account', name: 'app_admin_confirm_register')]
+    public function confirmRegister()
+    {
+        return $this->render('reset_password/valid-account.html.twig');
     }
 }

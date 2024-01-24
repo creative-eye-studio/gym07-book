@@ -6,35 +6,5 @@
 <section class="block mt-5">
     <h2>Liste des sessions par cours</h2>
     <div id="calendar-admin"></div>
-    {# <div class="mt-4">
-        <div class="tab-container">
-            <ul class="tabs-btn tabs mb-4">
-                <li><a class="tab active">WOD</a></li>
-                <li><a class="tab">WOD Initiation</a></li>
-            </ul>
-            <div class="tab-panes">
-                <div class="tab-pane active">
-                    {% for item in wod %}
-                        <div class="line py-3">
-                            <span class="title">
-                                {{ item.datetimestart | date('d/m/Y | H:i') }} - {{ item.datetimeend | date('H:i') }}
-                            </span>
-                            <span><a href="{{ path('app_participants_list', {id: item.id}) }}">Voir la liste des inscrits</a></span>
-                        </div>    
-                    {% endfor %}
-                </div>
-                <div class="tab-pane">
-                    {% for item in wodInit %}
-                        <div class="line py-3">
-                            <span class="title">
-                                {{ item.datetimestart | date('d/m/Y | H:i') }} - {{ item.datetimeend | date('H:i') }}
-                            </span>
-                            <span><a href="{{ path('app_participants_list', {id: item.id}) }}">Voir la liste des inscrits</a></span>
-                        </div>     
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div> #}
 </section>
 {% endblock %}

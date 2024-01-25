@@ -18,7 +18,7 @@
                 <ul class="mb-4">
                     <li>Date : {{ date }} </li>
                     <li>De {{ heureDebut }} à {{ heureFin }}</li>
-                    {% if resaCount > places %}
+                    {% if resaCount >= places %}
                         <li>Le cours est complet,<br >
                         Mais vous pouvez tout de même vous inscrire et être en liste d'attente. Si une place se libère, vous en serez notifié par E-Mail, alors n'oubliez pas de vérifier ou d'activer vos notifications emails.</li>
                     {% else %}

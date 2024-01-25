@@ -8,6 +8,9 @@
     <a href="{{ path('app_ext_cours_create')}}" class="btn-link float-right">Ajouter un nouveau cours</a>
     <h2>Gestion des cours</h2>
     <div class="mt-5">
+        <p>
+            <strong>Les cours avec des horaires dispensés ne peuvent être supprimés</strong>
+        </p>
         {% for course in courses %}
             <div class="line py-3">
                 <p>
@@ -16,8 +19,8 @@
                     Nombre de cours dispensés : {{ course.plannings | length }}
                 </p>
                 <ul>
-                    <li><a href="">Modifier</a></li>
-                    <li><a href="">Supprimer</a></li>
+                    <li><a href="{{ path('app_ext_cours_update', { id: course.id })}}">Modifier</a></li>
+                    <li><a href="{{ path('app_ext_cours_delete', { id: course.id })}}">Supprimer</a></li>
                 </ul>
             </div>
         {% endfor %}

@@ -29,7 +29,7 @@ class ExtCoursController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/cours/ajout', name: 'app_ext_cours_create')]
+    #[Route('/admin/cours/add', name: 'app_ext_cours_create')]
     public function addCours(Request $request): Response
     {
         $cours = new Cours();
@@ -49,7 +49,7 @@ class ExtCoursController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/cours/modif/{id}', name: 'app_ext_cours_update')]
+    #[Route('/admin/cours/update/{id}', name: 'app_ext_cours_update')]
     public function updateCours(Request $request, int $id)
     {
         $cours = $this->coursRepo->find($id);
@@ -59,11 +59,22 @@ class ExtCoursController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) { 
             $this->em->persist($cours);
             $this->em->flush();
+
+            return $this->redirectToRoute('app_ext_cours');
         }
 
         return $this->render('ext_cours/form-manager.html.twig', [
             'form' => $form->createView(),
             'titre' => "Modifier un cours"
         ]);
+    }
+
+    #[Route('/admin/cours/delete/{id}', name: 'app_ext_cours_delete')]
+    public function deleteCours(Request $request, int $id) {
+        $cours = $this->coursRepo->find($id);
+        $this->em->remove($cours);
+        $this->em->flush();
+
+        return $this->redirectToRoute('app_ext_cours');
     }
 }

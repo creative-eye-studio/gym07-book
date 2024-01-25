@@ -16,6 +16,7 @@ import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import frLocale from '@fullcalendar/core/locales/fr';
 import chroma from 'chroma-js';
+import flatpickr from 'flatpickr';
 
 
 /* TABS
@@ -299,4 +300,3 @@ if (navLinksRemove.length > 0 && dragDropList) {
         });
     });
 }
-

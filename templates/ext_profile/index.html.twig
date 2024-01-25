@@ -35,6 +35,10 @@
             <hr>
             <h3>Inscrire à un cours</h3>
             {{ form(form) }}
+            {# {{ form_start(form) }}
+                {{ form_row(form.planning) }}
+                {{ form_row(form.submit) }}
+            {{ form_end(form) }} #}
         {% endif %}
         <hr>
         <h3>Réservations en cours</h3>
@@ -63,4 +67,13 @@
         {% endfor %}
     </div>
 </section>
+
+
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    {{ parent() }}
 {% endblock %}

@@ -35,6 +35,7 @@ class InscriptionsService
     public function cancelInscription(int $id)
     {
         $inscription = $this->inscriptionRepo->find($id);
+        $credit = $inscription->getPlanning()->getCours()->getCredits();
 
         $plan = $inscription->getPlanning();
         $dateStart = $inscription->getPlanning()->getDateTimeStart();
@@ -48,7 +49,7 @@ class InscriptionsService
         if ($dateStart > $dateActuelle && $diffMinutes > 120) {
             if ($token) {
                 $user = $token->getUser();
-                $user->setCredits($user->getCredits() + 1);
+                $user->setCredits($user->getCredits() + $credit);
                 $this->em->persist($user);
                 $this->em->flush();
             }

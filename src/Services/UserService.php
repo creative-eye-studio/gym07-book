@@ -54,7 +54,7 @@ class UserService extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            return $this->redirectToRoute('admin_users_modify',  ['id' => $user->getId()] );
+            return $this->redirectToRoute('admin_users');
         }
 
         return $this->render('admin_users/user-manager.html.twig', [

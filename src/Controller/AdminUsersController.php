@@ -94,11 +94,13 @@ class AdminUsersController extends AbstractController
         }
 
         return $this->render('ext_profile/index.html.twig', [
+            'id' => $user->getId(),
             'nom' => $user->getLastname(),
             'prenom' => $user->getFirstname(),
             'tel' => $user->getTelephone(),
             'email' => $user->getEmail(),
             'credits' => $user->getCredits(),
+            'roles' => $user->getRoles()[0],
             'reservations' => $user->getReservations(),
             'payment_type' => $user->getPaymentType(),
             'free_courses' => $user->getFreeCourses(),

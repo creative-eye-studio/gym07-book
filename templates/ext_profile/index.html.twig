@@ -3,12 +3,29 @@
 {% block title %}Hello ExtProfileController!{% endblock %}
 
 {% block body %}
+
+{% set tabData = {
+    "ROLE_BASE": "Non adhérent",
+    "ROLE_FONCTIONNAIRE": "Forfait 'Pompiers / Gendarmes / Police'",
+    "ROLE_ETU_SEN": "Forfait 'Etudiant / Senior'",
+    "ROLE_1SEANCE": "Forfait '1 séance'",
+    "ROLE_1MOIS": "Forfait '1 mois'",
+    "ROLE_3MOIS": "Forfait '3 mois'",
+    "ROLE_6MOIS": "Forfait '6 mois'",
+    "ROLE_DECOUVERTE": "Forfait 1 séance/semaine",
+    "ROLE_10SESSIONS": "Forfait '10 sessions'",
+    "ROLE_ANNUEL": "Forfait annuel",
+    "ROLE_ADMIN": "Administrateur",
+} %}
+
 <section class="block mt-5">
+    <a href="{{ path('admin_users_modify', { id: id }) }}" class="btn-link float-right">Modifier la fiche</a>
     <h2>{{ prenom }} {{ nom }}</h2>
     <div class="mt-4">
         <ul>
             <li>Téléphone : {{ tel }}</li>
             <li>Adresse E-Mail : {{ email }}</li>
+            <li>Statut : {{ tabData[roles] }}</li>
             <li>Crédits restants : {{ credits }}</li>
             {% if free_courses > 0 %}
                 <li>Nombre de cours offerts : {{ free_courses }}</li>

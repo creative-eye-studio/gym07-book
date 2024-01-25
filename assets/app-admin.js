@@ -15,6 +15,7 @@ import Sortable from 'sortablejs';
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import frLocale from '@fullcalendar/core/locales/fr';
+import chroma from 'chroma-js';
 
 
 /* TABS
@@ -30,20 +31,20 @@ if (container != null) {
 /* BTN NAV
 --------------------------------------------*/
 var btnNav = document.querySelector('.btn-nav');
-btnNav.addEventListener('click', function() {
+btnNav.addEventListener('click', function () {
     document.querySelector(".navigation").classList.toggle("opened");
 })
 
 
 /* AUTOCOMPLETE
 --------------------------------------------*/
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     var autocompleteInput = document.querySelector(".user-search");
     var suggestionList = document.getElementById('suggestion-list');
 
     if (autocompleteInput != undefined) {
-        autocompleteInput.addEventListener('input', function() {
+        autocompleteInput.addEventListener('input', function () {
             var term = autocompleteInput.value;
             if (term.length >= 2) {
                 // Modifier l'URL pour inclure le terme en tant que paramètre de requête
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
             function showSuggestions(suggestions) {
                 // Effacer la liste précédente des suggestions
                 suggestionList.innerHTML = '';
-            
+
                 // Vérifier si suggestions est un objet
                 if (typeof suggestions === 'object' && suggestions !== null) {
                     var responses = Object.values(suggestions);
@@ -77,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             var listItem = document.createElement('li');
                             var link = document.createElement('a');
                             link.textContent = response.name;
-                            link.href = "/admin/users/regist-course/" + response.id; 
+                            link.href = "/admin/users/regist-course/" + response.id;
                             listItem.appendChild(link);
                             suggestionList.appendChild(listItem);
                         });
@@ -87,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     console.error("La réponse JSON ne contient pas une suggestion valide.");
                 }
-            }                     
+            }
         })
     }
 })
@@ -95,35 +96,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* CALENDAR
 --------------------------------------------*/
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var calendarEl = document.getElementById('calendar');
     if (calendarEl) {
         fetch('/api/planning')
             .then(response => response.json())
             .then(data => {
-                
+
                 if (window.innerWidth > 640) {
                     var calendar = new Calendar(calendarEl, {
                         plugins: [dayGridPlugin],
                         locale: frLocale,
                         events: data,
-                    });    
+                    });
                 } else {
                     var calendar = new Calendar(calendarEl, {
                         plugins: [dayGridPlugin],
                         initialView: 'dayGridDay',
                         locale: frLocale,
                         events: data,
-                    }); 
+                    });
                 }
 
                 calendar.render();
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération des événements:', error);
-            });    
+            });
     }
-    
+
 
     var calendarElAdmin = document.getElementById('calendar-admin');
     if (calendarElAdmin) {
@@ -135,25 +136,25 @@ document.addEventListener('DOMContentLoaded', function() {
                         plugins: [dayGridPlugin],
                         locale: frLocale,
                         events: data,
-                    });    
+                    });
                 } else {
                     var calendar = new Calendar(calendarElAdmin, {
                         plugins: [dayGridPlugin],
                         initialView: 'dayGridDay',
                         locale: frLocale,
                         events: data,
-                    }); 
+                    });
                 }
-                
+
 
                 calendar.render();
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération des événements:', error);
-            });    
+            });
     }
-    
-    
+
+
 });
 
 
@@ -207,12 +208,12 @@ function changeOrderLinks() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData),
     })
-    .then((response) => {
-        console.log('Enregistrement de l\'ordre terminé : ', response);
-    })
-    .catch((error) => {
-        console.error('Erreur lors de l\'enregistrement de l\'ordre :', error);
-    });
+        .then((response) => {
+            console.log('Enregistrement de l\'ordre terminé : ', response);
+        })
+        .catch((error) => {
+            console.error('Erreur lors de l\'enregistrement de l\'ordre :', error);
+        });
 }
 
 
@@ -221,8 +222,8 @@ function changeOrderLinks() {
 // Sélecteur de menu
 const navSelect = document.querySelector('.nav-select');
 if (navSelect) {
-    navSelect.addEventListener('change', function() {
-        const navSelected = navSelect.value; 
+    navSelect.addEventListener('change', function () {
+        const navSelected = navSelect.value;
         window.location.href = '/admin/navigation/' + navSelected;
     })
 }
@@ -239,15 +240,15 @@ if (menuRemove.length > 0) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(menuId),
             })
-            .then((response) => {
-                const navLinkRemoved = document.querySelector(`.menu-${menuId}`);
-                navLinkRemoved.style.display = 'none';
-                navLinkRemoved.style.visibility = 'hidden';
-                console.log('Suppression effectuée : ', response);
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la suppression :', error);
-            });
+                .then((response) => {
+                    const navLinkRemoved = document.querySelector(`.menu-${menuId}`);
+                    navLinkRemoved.style.display = 'none';
+                    navLinkRemoved.style.visibility = 'hidden';
+                    console.log('Suppression effectuée : ', response);
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de la suppression :', error);
+                });
         });
     });
 }
@@ -258,13 +259,13 @@ const popupContainer = document.querySelector('#popup-container');
 if (navLinksUpdate) {
     const popup = document.querySelector('#popup');
     navLinksUpdate.forEach((link) => {
-        link.addEventListener('click', function() {
+        link.addEventListener('click', function () {
             const url = link.dataset.url;
             popupContainer.style.display = 'flex';
             popup.src = url;
             console.log(url);
         })
-        
+
     })
 }
 
@@ -286,15 +287,16 @@ if (navLinksRemove.length > 0 && dragDropList) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(linkId),
             })
-            .then((response) => {
-                const navLinkRemoved = document.querySelector(`.nav-link-${linkId}`);
-                navLinkRemoved.style.display = 'none';
-                navLinkRemoved.style.visibility = 'hidden';
-                console.log('Suppression effectuée : ', response);
-            })
-            .catch((error) => {
-                console.error('Erreur lors de la suppression :', error);
-            });
+                .then((response) => {
+                    const navLinkRemoved = document.querySelector(`.nav-link-${linkId}`);
+                    navLinkRemoved.style.display = 'none';
+                    navLinkRemoved.style.visibility = 'hidden';
+                    console.log('Suppression effectuée : ', response);
+                })
+                .catch((error) => {
+                    console.error('Erreur lors de la suppression :', error);
+                });
         });
     });
 }
+

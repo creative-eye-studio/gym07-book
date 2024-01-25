@@ -31,6 +31,9 @@ class Cours
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $color = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $textColor = null;
+
     public function __construct()
     {
         $this->plannings = new ArrayCollection();
@@ -115,6 +118,18 @@ class Cours
     public function setColor(?string $color): static
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    public function getTextColor(): ?string
+    {
+        return $this->textColor;
+    }
+
+    public function setTextColor(?string $textColor): static
+    {
+        $this->textColor = $textColor;
 
         return $this;
     }

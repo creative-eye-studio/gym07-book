@@ -30,6 +30,13 @@ class ExtCoursType extends AbstractType
                     'class' => "mb"
                 ]
             ])
+            ->add('text_color', ColorType::class, [
+                'label' => "Couleur du texte",
+                'required' => false,
+                'attr' => [
+                    'class' => "mb"
+                ]
+            ])
             ->add('color', ColorType::class, [
                 'label' => "Couleur",
                 'required' => false,

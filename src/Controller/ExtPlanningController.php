@@ -93,6 +93,8 @@ class ExtPlanningController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($planning);
             $this->em->flush();
+
+            return $this->redirectToRoute('app_admin');
         }
 
         return $this->render('ext_planning/form-manager.html.twig', [

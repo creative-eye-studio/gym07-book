@@ -48,7 +48,9 @@ class ApiController extends AbstractController
                 'id' => $course->getId(),
                 'title' => $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i") . " - " . $course->getCours()->getNomCours(),
                 'start' => $course->getDateTimeStart()->format("Y-m-d"),
-                'url' => '/admin/plan/' . $course->getId()
+                'url' => '/admin/plan/' . $course->getId(),
+                'textColor' => $course->getCours()->getTextColor(),
+                'backgroundColor' => $course->getCours()->getColor(),
             ];
         }, $this->planningRepo->findAll());
 
@@ -63,7 +65,9 @@ class ApiController extends AbstractController
                 'id' => $course->getId(),
                 'title' => $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i") . " (" . $course->getReservations()->count() . "/" . $course->getPlaces() . ") | " . $course->getCours()->getNomCours(),
                 'start' => $course->getDateTimeStart()->format("Y-m-d"),
-                'url' => '/admin/participants/' . $course->getId()
+                'url' => '/admin/participants/' . $course->getId(),
+                'textColor' => $course->getCours()->getTextColor(),
+                'backgroundColor' => $course->getCours()->getColor(),
             ];
         }, $this->planningRepo->findAll());
 

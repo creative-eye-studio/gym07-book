@@ -25,7 +25,7 @@ class ExtCoursController extends AbstractController
     public function index(): Response
     {
         return $this->render('ext_cours/index.html.twig', [
-            'controller_name' => 'ExtCoursController',
+            'courses' => $this->coursRepo->findAll()
         ]);
     }
 
@@ -39,6 +39,8 @@ class ExtCoursController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) { 
             $this->em->persist($cours);
             $this->em->flush();
+
+            return $this->redirectToRoute('app_ext_cours');
         }
 
         return $this->render('ext_cours/form-manager.html.twig', [

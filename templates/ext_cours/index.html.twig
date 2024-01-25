@@ -1,7 +1,27 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Gestion des cours{% endblock %}
 
 {% block body %}
+
+<section class="block">
+    <a href="{{ path('app_ext_cours_create')}}" class="btn-link float-right">Ajouter un nouveau cours</a>
+    <h2>Gestion des cours</h2>
+    <div class="mt-5">
+        {% for course in courses %}
+            <div class="line py-3">
+                <p>
+                    {{ course.nomcours }}<br />
+                    Crédits nécessaires : {{ course.credits }}<br />
+                    Nombre de cours dispensés : {{ course.plannings | length }}
+                </p>
+                <ul>
+                    <li><a href="">Modifier</a></li>
+                    <li><a href="">Supprimer</a></li>
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</section>
 
 {% endblock %}

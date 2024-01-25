@@ -20,7 +20,7 @@
                 </ul>
                 <div class="tab-panes">
                     <div class="tab-pane active">
-                    {% set sortedList = list | sort((a, b) => a.user.firstname <=> b.user.firstname) %}
+                    {% set sortedList = list | sort((b, a) => a.user.id <=> b.user.id) %}
 
                     {% for item in sortedList %}
                         {% if item.etat == 1 %}
@@ -37,7 +37,7 @@
                     {% endfor %}
                     </div>
                     <div class="tab-pane">
-                    {% set sortedList = list | sort((a, b) => a.user.firstname <=> b.user.firstname) %}
+                    {% set sortedList = list | sort((b, a) => a.user.id <=> b.user.id) %}
 
                     {% for item in sortedList %}
                         {% if item.etat == 0 %}
@@ -54,7 +54,7 @@
                     {% endfor %}
                     </div>
                     <div class="tab-pane">
-                    {% set sortedList = list | sort((a, b) => a.user.firstname <=> b.user.firstname) %}
+                    {% set sortedList = list | sort((b, a) => a.user.id <=> b.user.id) %}
 
                     {% for item in sortedList %}
                         {% if item.etat == 2 %}

@@ -30,10 +30,12 @@ class ExtProfileController extends AbstractController
         }
 
         return $this->render('ext_profile/index.html.twig', [
+            'id' => $user->getId(),
             'nom' => $user->getLastname(),
             'prenom' => $user->getFirstname(),
             'tel' => $user->getTelephone(),
             'email' => $user->getEmail(),
+            'roles' => $user->getRoles()[0],
             'credits' => $user->getCredits(),
             'reservations' => $user->getReservations(),
             'free_courses' => $user->getFreeCourses(),

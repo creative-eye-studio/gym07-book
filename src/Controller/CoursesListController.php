@@ -68,6 +68,8 @@ class CoursesListController extends AbstractController
     public function handleCustomerAction(Request $request, int $id, string $action): Response
     {
         $resa = $this->em->getRepository(Reservations::class)->find($id);
+        $user = $resa->getUser();
+        $credit = $resa->getPlanning()->getCours()->getCredits();
 
         $variables = [
             'courseName' => $resa->getPlanning()->getCours()->getNomCours(),
@@ -76,6 +78,9 @@ class CoursesListController extends AbstractController
 
         switch ($action) {
             case 'accept':
+                if ($resa->getEtat() == 2) {
+                    $user->setCredits($user->getCredits() - $credit);
+                }
                 $etat = 1;
                 $this->sendMail(
                     "Validation de votre inscription à un cours", 
@@ -83,6 +88,7 @@ class CoursesListController extends AbstractController
                     $variables);
                 break;
             case 'refuse':
+                $user->setCredits($user->getCredits() + $credit);
                 $etat = 2;
                 $this->sendMail(
                     "Annulation de votre inscription à un cours", 
@@ -90,6 +96,9 @@ class CoursesListController extends AbstractController
                     $variables);
                 break;
             case 'waiting':
+                if ($resa->getEtat() == 2) {
+                    $user->setCredits($user->getCredits() - $credit);
+                }
                 $etat = 0;
                 $this->sendMail(
                     "Mise en attente de votre inscription à un cours", 

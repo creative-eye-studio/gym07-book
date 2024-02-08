@@ -47,6 +47,11 @@ class ExtPlanningController extends AbstractController
 
         $plan = $this->planningRepo->find($id);
 
+        $resas = $this->resaRepo->findBy([
+            'etat' => 1,
+            'planning' => $plan
+        ]);
+
         $resaUser = $this->resaRepo->findOneBy([
             'planning' => $plan,
             'user' => $user
@@ -70,7 +75,7 @@ class ExtPlanningController extends AbstractController
             'date' => $plan->getDateTimeStart()->format("d-m-Y"),
             'heureDebut' => $plan->getDateTimeStart()->format("H:i"),
             'heureFin' => $plan->getDateTimeEnd()->format("H:i"),
-            'resaCount' => $plan->getReservations()->count(),
+            'resaCount' => count($resas),
             'places' => $plan->getPlaces(),
             "diffDays" => $diffDays,
             'lastRegister' => $lastRegister,

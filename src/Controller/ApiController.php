@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Planning;
+use App\Entity\Reservations;
 use App\Services\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,12 +14,14 @@ class ApiController extends AbstractController
 {
     private $em;
     private $planningRepo;
+    private $resasRepo;
     private $userService;
 
     function __construct(EntityManagerInterface $em, UserService $userService)
     {
         $this->em = $em;
         $this->planningRepo = $this->em->getRepository(Planning::class);
+        $this->resasRepo = $this->em->getRepository(Reservations::class);
         $this->userService = $userService;
     }
 
@@ -61,9 +64,13 @@ class ApiController extends AbstractController
     public function ApiAdminPlanning(): JsonResponse
     {
         $array = array_map(function ($course) {
+            $resas = $this->resasRepo->findBy([
+                'etat' => 1,
+                'planning' => $course
+            ]);
             return [
                 'id' => $course->getId(),
-                'title' => $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i") . " (" . $course->getReservations()->count() . "/" . $course->getPlaces() . ") | " . $course->getCours()->getNomCours(),
+                'title' => $course->getDateTimeStart()->format("H:i") . " - " . $course->getDateTimeEnd()->format("H:i") . " (" . count($resas) . "/" . $course->getPlaces() . ") | " . $course->getCours()->getNomCours(),
                 'start' => $course->getDateTimeStart()->format("Y-m-d"),
                 'url' => '/admin/participants/' . $course->getId(),
                 'textColor' => $course->getCours()->getTextColor(),

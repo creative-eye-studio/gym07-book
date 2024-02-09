@@ -79,47 +79,57 @@ class AdminRegisterController extends AbstractController
         $notif = null;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistrement de l'utilisateur
-            $role = $form->get('roles')->getData();
-            $user = $form->getData();
-            $password = $encoder->hashPassword($user, 'ChangePassword!!!');
-            $user->setPassword($password);
-            $user->setRoles([$role]);
-            $user->setIsVerified(false);
+            $email = $form->get('email')->getData();
+    
+            // Vérifier si un utilisateur existe déjà avec cette adresse e-mail
+            $existingUser = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
 
-            $roleCreditsMap = [
-                'ROLE_10SESSIONS' => 10,
-                'ROLE_DECOUVERTE' => 4,
-                'ROLE_6MOIS' => 1,
-                'ROLE_3MOIS' => 1,
-                'ROLE_1MOIS' => 1,
-                'ROLE_ETU_SEN' => 1,
-                'ROLE_FONCTIONNAIRE' => 1,
-                'ROLE_ANNUEL' => 1,
-                'ROLE_ADMIN' => 1,
-                // Ajoutez d'autres rôles avec leurs crédits correspondants au besoin
-            ];
-            
-            $user->setCredits($roleCreditsMap[$role] ?? 0);            
+            if ($existingUser) {
+                // Un compte existe déjà avec cette adresse e-mail
+                $notif = "Un compte existe déjà avec cette adresse e-mail";
+            } else {
+                // Enregistrement de l'utilisateur
+                $role = $form->get('roles')->getData();
+                $user = $form->getData();
+                $password = $encoder->hashPassword($user, 'ChangePassword!!!');
+                $user->setPassword($password);
+                $user->setRoles([$role]);
+                $user->setIsVerified(false);
 
-            $user->setFreeCourses(2);
-            $user->setPaymentSuccess(false);
-            $this->em->persist($user);
-            $this->em->flush();
+                $roleCreditsMap = [
+                    'ROLE_10SESSIONS' => 10,
+                    'ROLE_DECOUVERTE' => 4,
+                    'ROLE_6MOIS' => 1,
+                    'ROLE_3MOIS' => 1,
+                    'ROLE_1MOIS' => 1,
+                    'ROLE_ETU_SEN' => 1,
+                    'ROLE_FONCTIONNAIRE' => 1,
+                    'ROLE_ANNUEL' => 1,
+                    'ROLE_ADMIN' => 1,
+                    // Ajoutez d'autres rôles avec leurs crédits correspondants au besoin
+                ];
+                
+                $user->setCredits($roleCreditsMap[$role] ?? 0);            
 
-            // Création du TOKEN
-            $header = [
-                'typ' => 'JWT',
-                'alg' => 'HS2256',
-            ];
+                $user->setFreeCourses(2);
+                $user->setPaymentSuccess(false);
+                $this->em->persist($user);
+                $this->em->flush();
 
-            $payload = [
-                'user_id' => $user->getId()
-            ];
+                // Création du TOKEN
+                $header = [
+                    'typ' => 'JWT',
+                    'alg' => 'HS2256',
+                ];
 
-            $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
-            $formService->validateRegister($user->getEmail(), $user->getFirstName(), $token);
-            $notif = "Le compte a bien été crée";
+                $payload = [
+                    'user_id' => $user->getId()
+                ];
+
+                $token = $jwt->generate($header, $payload, $this->getParameter('app.jwtsecret'));
+                $formService->validateRegister($user->getEmail(), $user->getFirstName(), $token);
+                $notif = "Le compte a bien été crée";
+            }
         }
 
         return $this->render('admin_register/index.html.twig', [

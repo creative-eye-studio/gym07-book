@@ -1,37 +1,41 @@
-*{
+* {
     box-sizing: border-box;
 }
 
-body{
+body {
     min-height: 100vh;
     position: relative;
     padding: 3rem 3rem 6rem;
     font: 400 1em/1.5em "Lato";
-    &.admin-page{
+
+    &.admin-page {
         margin: 0 0 0 $nav-width;
     }
+
     @media screen and (max-width: 767px) {
-        &.admin-page{
+        &.admin-page {
             margin: 0;
         }
     }
 }
 
-hr{
+hr {
     margin: 2rem 0;
 }
 
-p{
+p {
     margin-top: 0;
-    &:last-child{
+
+    &:last-child {
         margin-bottom: 0;
     }
 }
 
-a{
-    &[target='_blank']{
+a {
+    &[target='_blank'] {
         position: relative;
-        &::after{
+
+        &::after {
             content: "\1f855";
             position: absolute;
             top: 1.75rem;
@@ -47,35 +51,77 @@ a{
     }
 }
 
-.btn-list{
+.btn-list {
     margin-top: 1.75rem;
     display: flex;
     column-gap: 1rem;
-    a{
+
+    a {
         display: block;
     }
 }
 
-.d-none{
+.d-none {
     display: none;
 }
 
-.float-left{
+.float-left {
     float: left;
 }
 
-.float-right{
+.float-right {
     float: right;
 }
 
-.mt{
+.mt {
     margin-top: 1.75rem;
 }
 
-.mb{
+.mb {
     margin-bottom: 1.75rem;
 }
 
 .fc-event {
     padding: .2rem;
+}
+
+@media screen and (max-width: 640px) {
+    .fc-view.fc-agendaWeek-view {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fc-day-grid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fc-content-skeleton {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fc-time-grid-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fc-scroller.fc-time-grid-container {
+        overflow: hidden;
+    }
+
+    .fc-time-grid {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .fc-widget-header {
+        flex-basis: auto;
+    }
+
+    .fc-day-grid .fc-content-skeleton td,
+    .fc-time-grid .fc-content-skeleton td {
+        width: 100%;
+    }
+
 }

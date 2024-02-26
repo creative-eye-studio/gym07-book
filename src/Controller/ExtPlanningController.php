@@ -6,6 +6,7 @@ use App\Entity\Planning;
 use App\Entity\Reservations;
 use App\Form\ExtPlanningType;
 use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Validator\Constraints\Date;
 
 class ExtPlanningController extends AbstractController
 {
@@ -83,6 +85,7 @@ class ExtPlanningController extends AbstractController
             "creditsUser" => $creditsUser,
             'freeCourses' => $freeCourses,
             'dontInsc' => $dontInsc,
+            'endedAdh' => $limitTimeAdh,
             'endAdh' => $endAdh
         ]);
     }

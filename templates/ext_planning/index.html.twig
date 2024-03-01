@@ -31,12 +31,16 @@
                 {% elseif endAdh and endedAdh is not null %}
                     <p>Votre abonnement a pris fin. Nous vous invitons à prendre contact avec nous pour mettre à jour votre abonnement</p>
                 {% else %}
-                    {% if freeCourses <= 0 and creditsUser <= 0 %}
+                    {% if credits < 1 %}
+                        <p>
+                            <a href="{{ path('app_ext_planning_register', {idPlan: id}) }}" class="btn-link">Réserver un cours</a>
+                        </p>
+                    {% elseif freeCourses <= 0 and creditsUser <= 0 %}
                         <p>Si vous souhaitez acheter un abonnement ou une carte, merci de passer par l'accueil sur les horaires d'ouvertures, nous débloquerons vos crédits à ce moment là.</p>
                         <p>
                             <a href="{{ path('process_payment', {idPlan: id}) }}" class="btn-link">Acheter un cours à l'unité</a>
                         </p>
-                    {% else %}
+                    {% else  %}
                         <p>
                             <a href="{{ path('app_ext_planning_register', {idPlan: id}) }}" class="btn-link">Réserver un cours</a>
                         </p>

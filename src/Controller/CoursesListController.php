@@ -73,7 +73,7 @@ class CoursesListController extends AbstractController
 
         $variables = [
             'courseName' => $resa->getPlanning()->getCours()->getNomCours(),
-            'courseDate' => $resa->getPlanning()->getDateTimeStart()->format('d/m/Y à H:M'),
+            'courseDate' => $resa->getPlanning()->getDateTimeStart()->format('d/m/Y à hh:mm'),
         ];
 
         switch ($action) {

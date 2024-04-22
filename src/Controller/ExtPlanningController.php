@@ -172,7 +172,7 @@ class ExtPlanningController extends AbstractController
 
             $variables = [
                 'courseName' => $resa->getPlanning()->getCours()->getNomCours(),
-                'courseDate' => $resa->getPlanning()->getDateTimeStart()->format('d/m/Y à h:i'),
+                'courseDate' => $resa->getPlanning()->getDateTimeStart()->format('d/m/Y à H:i'),
             ];
 
             if ($nbResa >= $places) {
